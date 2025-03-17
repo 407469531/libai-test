@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef PUB_H
+#define PUB_H
 #include <iostream>
 #include <fstream>
 
@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include <deque>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 struct ListNode {
@@ -19,21 +20,6 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-void pVector(vector<int>& vs,string name=""){
-    printf("%s: ",name.c_str());
-    for(auto& v: vs){
-        printf("%d,",v);
-    }
-    printf("\n");
-}
-void pList(ListNode* in,string name=""){
-    ListNode* tmp = in;
-    printf("%s: ",name.c_str());
-    while(tmp){
-        printf("%d ",tmp->val);
-        tmp = tmp->next;
-    }
-    printf("\n");
-}
-
+void pVector(vector<int>& vs,string name="");
+void pList(ListNode* in,string name="");
 #endif // MAIN_H

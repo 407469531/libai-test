@@ -1,9 +1,8 @@
 #include <QCoreApplication>
 
-#include "main.h"
-#include "vector.h"
-#include "sort.h"
-#include "list.h"
+#include "vector1.h"
+#include "sort1.h"
+#include "list1.h"
 #include "string1.h"
 
 void listtest(){
