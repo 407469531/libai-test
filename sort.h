@@ -81,7 +81,7 @@ public:
     }
 
 };
-
+// 1
 void quickSortTest(){
     Solution4 so;
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
@@ -89,17 +89,14 @@ void quickSortTest(){
     so.quickSort(arr, 0, n - 1);
     pVector(arr,"quickSort");
 }
-
-
-
-
+// 2
 void bubbleSortTest(){
     Solution4 so;
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
     so.bubbleSort(arr);
     pVector(arr,"bubbleSort");
 }
-
+// 3
 void heapSortTest(){
     Solution4 so;
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
@@ -107,7 +104,7 @@ void heapSortTest(){
     so.heapSort(arr, n);
     pVector(arr,"heapSort");
 }
-
+// 4
 void insertionSortTest(){
     Solution4 so;
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
