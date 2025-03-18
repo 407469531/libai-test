@@ -1,6 +1,75 @@
 #include "list1.h"
+/*********************测试例子构造***********************/
+void reverseListTest(){
+    Solution2 so;
+    ListNode* node1 = new ListNode(1);
+    ListNode* node2 = new ListNode(2);
+    ListNode* node3 = new ListNode(3);
+    ListNode* node4 = new ListNode(4);
+    ListNode* node5 = new ListNode(5);
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node5;
 
-// list 5
+    so.reverseList(node1);
+}
+
+void isPalindromeTest(){
+    Solution2 so;
+    ListNode* node1 = new ListNode(1);
+    ListNode* node2 = new ListNode(2);
+    ListNode* node3 = new ListNode(3);
+    ListNode* node4 = new ListNode(2);
+    ListNode* node5 = new ListNode(1);
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node5;
+
+    so.isPalindrome(node1);
+}
+
+void deleteDuplicates1Test(){
+    Solution2 so;
+    ListNode* node1 = new ListNode(1);
+    ListNode* node2 = new ListNode(1);
+    ListNode* node3 = new ListNode(2);
+    ListNode* node4 = new ListNode(3);
+    ListNode* node5 = new ListNode(4);
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node5;
+
+    ListNode* ret1 =  so.deleteDuplicates1(node1);
+    pList(ret1,"deleteDuplicates1");
+}
+
+void deleteDuplicates2Test() {
+    Solution2 so;
+    ListNode* node1 = new ListNode(1);
+    ListNode* node2 = new ListNode(1);
+    ListNode* node3 = new ListNode(2);
+    ListNode* node4 = new ListNode(3);
+    ListNode* node5 = new ListNode(4);
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node5;
+
+    ListNode* ret2 =  so.deleteDuplicates2(node1);
+    pList(ret2,"deleteDuplicates2");
+}
+// list test enter
+void listtest(){
+    deleteDuplicates1Test();
+    deleteDuplicates2Test();
+    reverseListTest();
+    isPalindromeTest();
+}
+
+/********************* 234.回文链表 ***************/
 ListNode* Solution2::endOfFirstHalf(ListNode* head) {
     ListNode* fast = head;
     ListNode* slow = head;
@@ -10,8 +79,6 @@ ListNode* Solution2::endOfFirstHalf(ListNode* head) {
     }
     return slow;
 }
-
-// list 4
 bool Solution2::isPalindrome(ListNode* head) {
     if(head == nullptr)
         return true;
@@ -36,8 +103,7 @@ bool Solution2::isPalindrome(ListNode* head) {
     return res;
 }
 
-
-// list 3
+/********************* 206.反转链表***************/
 ListNode* Solution2::reverseList(ListNode* head) {
     ListNode* newlist = NULL;
     while(head){
@@ -48,8 +114,8 @@ ListNode* Solution2::reverseList(ListNode* head) {
     }
     return newlist;
 }
-
-// list 2: {1,1,2,3} -> {2,3}
+/*********** 82.删除排序链表中的重复元素2 *********/
+// {1,1,2,3} -> {2,3}
 ListNode* Solution2::deleteDuplicates2(ListNode* head) {
     ListNode* dummy = new ListNode(0,head);
     ListNode* cur = dummy;
@@ -63,7 +129,8 @@ ListNode* Solution2::deleteDuplicates2(ListNode* head) {
     }
     return dummy->next;
 }
-// list 1: {1,1,2,3} -> {1,2,3}
+/*********** 83.删除排序链表中的重复元素1 *********/
+// {1,1,2,3} -> {1,2,3}
 ListNode* Solution2::deleteDuplicates1(ListNode* head) {
     ListNode* cur = head;
     while(cur->next){

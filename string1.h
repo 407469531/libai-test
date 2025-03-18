@@ -9,4 +9,7 @@ public:
 
 };
 
+
+void stringtest();
+
 #endif // STRING_H

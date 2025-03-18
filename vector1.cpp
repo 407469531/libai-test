@@ -1,6 +1,65 @@
 #include "vector1.h"
 
-// vector 6
+
+void trapTest(){
+    Solution1 so;
+
+    vector<int> vec6={0,1,0,2,1,0,1,3,2,1,2,1};
+    int res = so.trap(vec6);
+    printf("trap:%d \n",res);
+}
+
+void maxSlidingWindowTest(){
+    Solution1 so;
+
+    vector<int> vec5={1,3,-1,-3,5,3,6,7};
+    vector<int> res = so.maxSlidingWindow(vec5,3);
+    pVector(res,"maxSlidingWindow");
+
+}
+
+void threeSumTest(){
+    Solution1 so;
+    vector<int> vec3={-1,0,1,2,-1,-4};
+    vector<vector<int>> r3 = so.threeSum(vec3);
+}
+
+void twoSumTest(){
+    Solution1 so;
+    vector<int> vec1={1,2,3,4,5};
+    vector<int> res = so.twoSum(vec1,9);
+    pVector(res,"twoSum");
+}
+
+void moveZeroesTest(){
+    Solution1 so;
+    vector<int> vec2={1,0,3,0,5};
+    so.moveZeroes(vec2);
+    pVector(vec2,"moveZeroes");
+
+}
+
+void subarraySumTest(){
+    Solution1 so;
+
+//    vector<int> vec4={6,4,3,1};
+//    so.subarraySum(vec4,10);
+
+    vector<int> vec1_1={1,1,1};
+    so.subarraySum1(vec1_1,2);
+}
+
+void vectortest(){
+
+
+    trapTest();
+    maxSlidingWindowTest();
+    twoSumTest();
+    threeSumTest();
+    moveZeroesTest();
+}
+
+/******************* 42.接雨水 *************************/
 int Solution1::trap(vector<int>& height) {
     int len = height.size();
     int left(0);
@@ -21,7 +80,7 @@ int Solution1::trap(vector<int>& height) {
     return ans;
 }
 
-// vector 5
+/******************* 239.滑动窗空最大值 *************************/
 vector<int> Solution1::maxSlidingWindow(vector<int>& nums, int k) {
     int n = nums.size();
     deque<int> q;
@@ -48,7 +107,7 @@ vector<int> Solution1::maxSlidingWindow(vector<int>& nums, int k) {
     return ans;
 }
 
-// vector 4
+/******************* 1.两数之和 *************************/
 vector<int> Solution1::twoSum(vector<int>& nums, int target) {
     unordered_map<int,int> value_key;
     int max = nums.size();
@@ -61,7 +120,7 @@ vector<int> Solution1::twoSum(vector<int>& nums, int target) {
     }
     return {};
 }
-// vector 3
+/******************* 283.移动零 *************************/
 void Solution1::moveZeroes(vector<int>& nums) {
     int left(0);
     int right(0);
@@ -75,8 +134,7 @@ void Solution1::moveZeroes(vector<int>& nums) {
         ++right;
     }
 }
-
-// vector 2
+/******************* 15.三树之和 *************************/
 vector<vector<int>> Solution1::threeSum(vector<int>& nums) {
     int n = nums.size();
     std::sort(nums.begin(),nums.end());
@@ -100,7 +158,7 @@ vector<vector<int>> Solution1::threeSum(vector<int>& nums) {
     }
     return ans;
 }
-// vector 1
+/******************* 560.和为k的子数组 1 *************************/
 int Solution1::subarraySum(vector<int>& nums, int k) {
     int len = nums.size();
     int ans(0);
@@ -115,7 +173,7 @@ int Solution1::subarraySum(vector<int>& nums, int k) {
     }
     return ans;
 }
-// vector 1.1
+/******************* 560.和为k的子数组 2 *************************/
 int Solution1::subarraySum1(vector<int>& nums, int k) {
     unordered_map<int, int> mp;
     mp[0] = 1;

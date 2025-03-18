@@ -1,7 +1,7 @@
 #include "sort1.h"
 
+/*********************测试例子构造***********************/
 
-// 1
 void quickSortTest(){
     Solution4 so;
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
@@ -9,14 +9,14 @@ void quickSortTest(){
     so.quickSort(arr, 0, n - 1);
     pVector(arr,"quickSort");
 }
-// 2
+
 void bubbleSortTest(){
     Solution4 so;
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
     so.bubbleSort(arr);
     pVector(arr,"bubbleSort");
 }
-// 3
+
 void heapSortTest(){
     Solution4 so;
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
@@ -24,17 +24,18 @@ void heapSortTest(){
     so.heapSort(arr, n);
     pVector(arr,"heapSort");
 }
-// 4
+
 void insertionSortTest(){
     Solution4 so;
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
     so.insertionSort(arr);
     pVector(arr,"insertionSort");
 }
+// sort test enter
 void sortTest(){
-//    quickSortTest();
-//    bubbleSortTest();
-//    heapSortTest();
+    quickSortTest();
+    bubbleSortTest();
+    heapSortTest();
     insertionSortTest();
 }
 /*********************快速排序***********************/
@@ -50,7 +51,6 @@ int Solution4::partition(std::vector<int>& arr, int low, int high){
     swap(arr[i+1],arr[high]);
     return i+1;
 }
-// ascending
 void Solution4::quickSort(std::vector<int>& arr, int low, int high){
     if(low < high){
         int mid = partition(arr, low, high);
@@ -58,14 +58,12 @@ void Solution4::quickSort(std::vector<int>& arr, int low, int high){
         quickSort(arr, mid+1,high);
     }
 }
-
 /*******************冒泡排序*************************/
-// descending
 void Solution4::bubbleSort(std::vector<int>& arr){
     int len = arr.size();
     for(int i=0;i<len;++i){
         for(int j=i;j<len;++j){
-            if(arr[i] < arr[j]) {
+            if(arr[i] > arr[j]) {
                 swap(arr[i],arr[j]);
             }
         }
@@ -88,7 +86,6 @@ void Solution4::heapify(std::vector<int>& arr, int n, int i) {
         heapify(arr, n, largest);
     }
 }
-
 void Solution4::heapSort(std::vector<int>& arr, int n) {
     for (int i = n / 2 - 1; i >= 0; --i)
         heapify(arr, n, i);

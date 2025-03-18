@@ -15,5 +15,5 @@ public:
     // list 1: {1,1,2,3} -> {1,2,3}
     ListNode* deleteDuplicates1(ListNode* head);
 };
-
+void listtest();
 #endif // LIST_H
