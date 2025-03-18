@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+
+
+
+
+
+
+
+
+
+
+
+
+
+use strict;
+use Text::Balanced;
+
+my $SWIG_HEADERS    = "(SAPI|SWPY|SWPL|SWTL)";
+my $IDENTIFIER      = "([_a-zA-Z][a-zA-Z0-9_]*)";
+my $SPACE           = "((\\s|\\n)*)";
+
+my $TYPES_DECL      = "([\\-0-9a-zA-Z_<>,\":\\s\\*\\&\\.~]*)";
+my $VAL_ASSIGN      = "(=($SPACE)$TYPES_DECL(\\((($SPACE)$TYPES_DECL($SPACE))*\))?)";                
+my $PARAM_DECL      = "(($SPACE)$TYPES_DECL($SPACE)($VAL_ASSIGN)?(,)?)";
+my $ENUM_VAL        = "(($SPACE)$IDENTIFIER($SPACE)($VAL_ASSIGN)?(.)?)";
+my $END_FUNC_DECL   = "(($SPACE)(const($SPACE))?((=($SPACE)0($SPACE))?;|\\{|:))";
+
+my $TEMPLATE_DECL   = "(template($SPACE)\\<($TYPES_DECL)*\\>)";
+my $CLASS_DECL      = "(($TEMPLATE_DECL($SPACE))?class($SPACE)$IDENTIFIER($SPACE)(:(.*))?($SPACE)\\{)";
+my $ENUM_DECL       = "(enum($SPACE)$IDENTIFIER($SPACE)\{$ENUM_VAL*\}($SPACE);)";
+my $TYPEDEF_DECL    = "(typedef($SPACE)$TYPES_DECL;)";
+my $FUNCTION_DECL   = "(($TEMPLATE_DECL($SPACE))?($TYPES_DECL*)(\\($PARAM_DECL*\\))$END_FUNC_DECL)";
+
+my $INDENTATION_WIDTH = 4;
+my $level = 0;
+
+my %swigkeyWords = (
+    "SWPY" => "SWIGPYTHON",
+    "SWPL" => "SWIGPERL",
+    "SWTL" => "SWIGTCL8"
+);
+
+
+my @files = reorder(@ARGV);
+
+print "%{\n";
+foreach my $file (@files) {
+    print "#include \"", $file, "\"\n";
+}
+print "%}\n";
+
+foreach my $file (@files){
+    my $text = readAndstripComment($file);
+    print "\n/* begin $file */\n".
+    swigGen($text);
+}
+
+
