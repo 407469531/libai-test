@@ -7,7 +7,8 @@ void lengthOfLongestSubstringTest(){
 //    string s1="aab";
 //    string s1="dvdf";
     string s1="asjrgapa";
-    so.lengthOfLongestSubstring(s1);
+    int len = so.lengthOfLongestSubstring(s1);
+    printf("lengthOfLongestSubstring result:%d \n",len);
 }
 
 // string test enter

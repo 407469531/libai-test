@@ -49,11 +49,28 @@ void ioTest(){
 
 }
 
-int main()
+
+
+#include <gtest.h>
+
+TEST(SimpleTest, test1) {
+    EXPECT_EQ(1,1);
+}
+
+int gtest(int argc, char **argv){
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+
+
+int main(int argc, char **argv)
 {
+    gtest(argc, argv);
+
     stringtest();
     listtest();
-//    vectortest();
+    vectortest();
     sortTest();
 //    ioTest();
 }

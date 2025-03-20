@@ -50,8 +50,6 @@ void subarraySumTest(){
 }
 
 void vectortest(){
-
-
     trapTest();
     maxSlidingWindowTest();
     twoSumTest();
@@ -81,6 +79,8 @@ int Solution1::trap(vector<int>& height) {
 }
 
 /******************* 239.滑动窗空最大值 *************************/
+// 给你一个整数数组nums，有一个大小为k的滑动窗口从数组的最左侧移动到数组的最右侧。
+// 你只可以看到在滑动窗口内的k个数字。滑动窗口每次只向右移动一位。返回滑动窗口中的最大值.
 vector<int> Solution1::maxSlidingWindow(vector<int>& nums, int k) {
     int n = nums.size();
     deque<int> q;
@@ -93,7 +93,7 @@ vector<int> Solution1::maxSlidingWindow(vector<int>& nums, int k) {
 
     vector<int> ans = {nums[q.front()]};
 
-    for(int i = k; k < n-k+1; ++i){
+    for(int i = k; i < n; ++i){
         while(!q.empty() && nums[i] > nums[q.back()] ){
             q.pop_back();
         }

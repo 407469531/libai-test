@@ -19,6 +19,6 @@ public:
     // vector 1.1
     int subarraySum1(vector<int>& nums, int k);
 };
-
+void vectortest();
 
 #endif // VECTOR_H
