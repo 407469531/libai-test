@@ -21,6 +21,7 @@ INCLUDEPATH += ../gtest/include
 LIBS += -L../gtest/lib/$${CODENAME} -lgtest
 
 SOURCES += \
+        io.cpp \
         list1.cpp \
         main.cpp \
         pub.cpp \
@@ -34,8 +35,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    io.h \
     list1.h \
     pub.h \
     sort1.h \
     string1.h \
     vector1.h
+
+
+headers.path = ../include
+headers.files = *.h
+
+INSTALLS += headers
