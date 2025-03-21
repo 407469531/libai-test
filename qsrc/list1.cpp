@@ -12,7 +12,9 @@ void reverseListTest(){
     node3->next = node4;
     node4->next = node5;
 
+    pList(node1,"reverseList input");
     so.reverseList(node1);
+    pList(node1,"reverseList output");
 }
 
 void isPalindromeTest(){
@@ -27,7 +29,9 @@ void isPalindromeTest(){
     node3->next = node4;
     node4->next = node5;
 
+    pList(node1,"isPalindrome input");
     so.isPalindrome(node1);
+    pList(node1,"isPalindrome output");
 }
 
 void deleteDuplicates1Test(){
@@ -42,8 +46,9 @@ void deleteDuplicates1Test(){
     node3->next = node4;
     node4->next = node5;
 
+    pList(node1,"deleteDuplicates1 input");
     ListNode* ret1 =  so.deleteDuplicates1(node1);
-    pList(ret1,"deleteDuplicates1");
+    pList(ret1,"deleteDuplicates1 output");
 }
 
 void deleteDuplicates2Test() {
@@ -58,8 +63,9 @@ void deleteDuplicates2Test() {
     node3->next = node4;
     node4->next = node5;
 
+    pList(node1,"deleteDuplicates2 input");
     ListNode* ret2 =  so.deleteDuplicates2(node1);
-    pList(ret2,"deleteDuplicates2");
+    pList(ret2,"deleteDuplicates2 output");
 }
 // list test enter
 void listtest(){

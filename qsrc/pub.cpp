@@ -6,6 +6,7 @@ void pVector(vector<int>& vs,string name){
         printf("%d,",v);
     }
     printf("\n");
+    fflush(stdout);
 }
 
 void pList(ListNode* in,string name){
@@ -16,4 +17,5 @@ void pList(ListNode* in,string name){
         tmp = tmp->next;
     }
     printf("\n");
+    fflush(stdout);
 }
