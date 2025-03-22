@@ -3,7 +3,6 @@
 #include "vector1.h"
 #include "sort1.h"
 #include "list1.h"
-#include "string1.h"
 #include "io.h"
 
 int gtest(int argc, char **argv){

@@ -39,7 +39,6 @@ HEADERS += \
     list1.h \
     pub.h \
     sort1.h \
-    string1.h \
     vector1.h
 
 
