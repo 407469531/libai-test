@@ -1,6 +1,5 @@
 #include <QCoreApplication>
 
-#include "vector1.h"
 #include "sort1.h"
 #include "list1.h"
 #include "io.h"
@@ -15,7 +14,7 @@ int main(int argc, char **argv)
     gtest(argc, argv);
 
     listtest();
-    vectortest();
+
     sortTest();
     ioTest();
 }

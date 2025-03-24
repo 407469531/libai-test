@@ -38,8 +38,7 @@ HEADERS += \
     io.h \
     list1.h \
     pub.h \
-    sort1.h \
-    vector1.h
+    sort1.h
 
 
 headers.path = ../include

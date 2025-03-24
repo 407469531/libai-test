@@ -21,7 +21,7 @@ int lengthOfLongestSubstring(string s) {
 
 /*********************测试例子构造***********************/
 // 1 test
-TEST(stringtest, lengthOfLongestSubstring)
+TEST(string_test, lengthOfLongestSubstring)
 {
     EXPECT_EQ(6,lengthOfLongestSubstring("asjrgapa"));
 }

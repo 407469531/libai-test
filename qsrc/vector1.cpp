@@ -1,64 +1,7 @@
-#include "vector1.h"
+#include "pub.h"
 
-
-void trapTest(){
-    Solution1 so;
-
-    vector<int> vec6={0,1,0,2,1,0,1,3,2,1,2,1};
-    int res = so.trap(vec6);
-    printf("trap:%d \n",res);
-}
-
-void maxSlidingWindowTest(){
-    Solution1 so;
-
-    vector<int> vec5={1,3,-1,-3,5,3,6,7};
-    vector<int> res = so.maxSlidingWindow(vec5,3);
-    pVector(res,"maxSlidingWindow");
-
-}
-
-void threeSumTest(){
-    Solution1 so;
-    vector<int> vec3={-1,0,1,2,-1,-4};
-    vector<vector<int>> r3 = so.threeSum(vec3);
-}
-
-void twoSumTest(){
-    Solution1 so;
-    vector<int> vec1={1,2,3,4,5};
-    vector<int> res = so.twoSum(vec1,9);
-    pVector(res,"twoSum");
-}
-
-void moveZeroesTest(){
-    Solution1 so;
-    vector<int> vec2={1,0,3,0,5};
-    so.moveZeroes(vec2);
-    pVector(vec2,"moveZeroes");
-
-}
-
-void subarraySumTest(){
-    Solution1 so;
-
-//    vector<int> vec4={6,4,3,1};
-//    so.subarraySum(vec4,10);
-
-    vector<int> vec1_1={1,1,1};
-    so.subarraySum1(vec1_1,2);
-}
-
-void vectortest(){
-    trapTest();
-    maxSlidingWindowTest();
-    twoSumTest();
-    threeSumTest();
-    moveZeroesTest();
-}
-
-/******************* 42.接雨水 *************************/
-int Solution1::trap(vector<int>& height) {
+/* test 1 ****************** 42.接雨水 *************************/
+int trap(vector<int>& height) {
     int len = height.size();
     int left(0);
     int right = len-1;
@@ -78,10 +21,10 @@ int Solution1::trap(vector<int>& height) {
     return ans;
 }
 
-/******************* 239.滑动窗空最大值 *************************/
+/* test 2 ****************** 239.滑动窗空最大值 *************************/
 // 给你一个整数数组nums，有一个大小为k的滑动窗口从数组的最左侧移动到数组的最右侧。
 // 你只可以看到在滑动窗口内的k个数字。滑动窗口每次只向右移动一位。返回滑动窗口中的最大值.
-vector<int> Solution1::maxSlidingWindow(vector<int>& nums, int k) {
+vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     int n = nums.size();
     deque<int> q;
     for(int i =0;i<k;++i){
@@ -107,8 +50,8 @@ vector<int> Solution1::maxSlidingWindow(vector<int>& nums, int k) {
     return ans;
 }
 
-/******************* 1.两数之和 *************************/
-vector<int> Solution1::twoSum(vector<int>& nums, int target) {
+/* test 3 ****************** 1.两数之和 *************************/
+vector<int> twoSum(vector<int>& nums, int target) {
     unordered_map<int,int> value_key;
     int max = nums.size();
 
@@ -120,8 +63,8 @@ vector<int> Solution1::twoSum(vector<int>& nums, int target) {
     }
     return {};
 }
-/******************* 283.移动零 *************************/
-void Solution1::moveZeroes(vector<int>& nums) {
+/* test 4 ****************** 283.移动零 *************************/
+void moveZeroes(vector<int>& nums) {
     int left(0);
     int right(0);
     int max = (int)nums.size();
@@ -134,8 +77,10 @@ void Solution1::moveZeroes(vector<int>& nums) {
         ++right;
     }
 }
-/******************* 15.三树之和 *************************/
-vector<vector<int>> Solution1::threeSum(vector<int>& nums) {
+/* test 5 ****************** 15.三树之和 *************************/
+// 判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，
+// 同时还满足 nums[i] + nums[j] + nums[k] == 0 。请你返回所有和为 0 且不重复的三元组。
+vector<vector<int>> threeSum(vector<int>& nums) {
     int n = nums.size();
     std::sort(nums.begin(),nums.end());
     vector<vector<int>> ans;
@@ -158,23 +103,10 @@ vector<vector<int>> Solution1::threeSum(vector<int>& nums) {
     }
     return ans;
 }
-/******************* 560.和为k的子数组 1 *************************/
-int Solution1::subarraySum(vector<int>& nums, int k) {
-    int len = nums.size();
-    int ans(0);
-    for(int start=0;start<len;++start) {
-        int sum = 0;
-        for(int end = start; end >=0; --end ) {
-            sum += nums[end];
-            if(sum == k){
-                ++ans;
-            }
-        }
-    }
-    return ans;
-}
-/******************* 560.和为k的子数组 2 *************************/
-int Solution1::subarraySum1(vector<int>& nums, int k) {
+/* test 6 ****************** 560.和为k的子数组 *************************/
+// 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
+// 子数组是数组中元素的连续非空序列。
+int subarraySum(vector<int>& nums, int k) {
     unordered_map<int, int> mp;
     mp[0] = 1;
     int count = 0, pre = 0;
@@ -187,3 +119,48 @@ int Solution1::subarraySum1(vector<int>& nums, int k) {
     }
     return count;
 }
+/*********************测试例子构造***********************/
+TEST(vector_test, test1_trap){
+    vector<int> vec={0,1,0,2,1,0,1,3,2,1,2,1};
+    EXPECT_EQ(trap(vec), 6);
+}
+
+TEST(vector_test, test2_maxSlidingWindow){
+    vector<int> vec={1,3,-1,-3,5,3,6,7};
+    vector<int> res = maxSlidingWindow(vec,3);
+    pVector(res,"maxSlidingWindow");
+    vector<int> rightResult = {3,3,5,5,6,7};
+    EXPECT_EQ(res , rightResult);
+}
+
+TEST(vector_test, test3_twoSum){
+    vector<int> vec={1,2,3,4,5};
+    vector<int> res = twoSum(vec,9);
+    vector<int> rightResult = {3,4};
+    EXPECT_EQ(res , rightResult);
+}
+
+TEST(vector_test, test4_moveZeroes){
+    vector<int> in = {1,0,3,0,5};
+    moveZeroes(in);
+    vector<int> rightResult = {1,3,5,0,0};
+    EXPECT_EQ(in , rightResult);
+}
+
+TEST(vector_test, test5_threeSum){
+    vector<int> vec={-1,0,1,2,-1,-4};
+    vector<vector<int>> res = threeSum(vec);
+    vector<vector<int>> rightResult = {{-1,-1,2},{-1,0,1}};
+    EXPECT_EQ(res , rightResult);
+}
+
+TEST(vector_test, test6_subarraySum){
+    vector<int> vec1={6,4,3,1};
+    int res1 = subarraySum(vec1,10);
+    EXPECT_EQ(res1, 1);
+
+    vector<int> vec2={1,1,1};
+    int res2 = subarraySum(vec2,2);
+    EXPECT_EQ(res2, 2);
+}
+
