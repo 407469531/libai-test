@@ -1,45 +1,7 @@
-#include "sort1.h"
+#include "pub.h"
 
-/*********************测试例子构造***********************/
-
-void quickSortTest(){
-    Solution4 so;
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    int n = arr.size();
-    so.quickSort(arr, 0, n - 1);
-    pVector(arr,"quickSort");
-}
-
-void bubbleSortTest(){
-    Solution4 so;
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    so.bubbleSort(arr);
-    pVector(arr,"bubbleSort");
-}
-
-void heapSortTest(){
-    Solution4 so;
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    int n = arr.size();
-    so.heapSort(arr, n);
-    pVector(arr,"heapSort");
-}
-
-void insertionSortTest(){
-    Solution4 so;
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    so.insertionSort(arr);
-    pVector(arr,"insertionSort");
-}
-// sort test enter
-void sortTest(){
-    quickSortTest();
-    bubbleSortTest();
-    heapSortTest();
-    insertionSortTest();
-}
-/*********************快速排序***********************/
-int Solution4::partition(std::vector<int>& arr, int low, int high){
+/* test 1 ********************快速排序***********************/
+int partition(std::vector<int>& arr, int low, int high){
     int val = arr[high];
     int i = low -1;
     for(int j = low; j < high ; ++j){
@@ -51,15 +13,15 @@ int Solution4::partition(std::vector<int>& arr, int low, int high){
     swap(arr[i+1],arr[high]);
     return i+1;
 }
-void Solution4::quickSort(std::vector<int>& arr, int low, int high){
+void quickSort(std::vector<int>& arr, int low, int high){
     if(low < high){
         int mid = partition(arr, low, high);
         quickSort(arr, low, mid-1);
         quickSort(arr, mid+1,high);
     }
 }
-/*******************冒泡排序*************************/
-void Solution4::bubbleSort(std::vector<int>& arr){
+/* test 2 ******************冒泡排序*************************/
+void bubbleSort(std::vector<int>& arr){
     int len = arr.size();
     for(int i=0;i<len;++i){
         for(int j=i;j<len;++j){
@@ -69,8 +31,8 @@ void Solution4::bubbleSort(std::vector<int>& arr){
         }
     }
 }
-/*********************堆排序***********************/
-void Solution4::heapify(std::vector<int>& arr, int n, int i) {
+/* test 3 ********************堆排序***********************/
+void heapify(std::vector<int>& arr, int n, int i) {
     int largest = i;
     int left = 2 * i + 1;
     int right = 2 * i + 2;
@@ -86,7 +48,7 @@ void Solution4::heapify(std::vector<int>& arr, int n, int i) {
         heapify(arr, n, largest);
     }
 }
-void Solution4::heapSort(std::vector<int>& arr, int n) {
+void heapSort(std::vector<int>& arr, int n) {
     for (int i = n / 2 - 1; i >= 0; --i)
         heapify(arr, n, i);
 
@@ -95,8 +57,8 @@ void Solution4::heapSort(std::vector<int>& arr, int n) {
         heapify(arr, i, 0);
     }
 }
-/********************插入排序************************/
-void Solution4::insertionSort(std::vector<int>& arr) {
+/* test 4 *******************插入排序************************/
+void insertionSort(std::vector<int>& arr) {
     int n = arr.size();
     for(int i = 1; i < n; ++i){
         int key = arr[i];
@@ -107,4 +69,31 @@ void Solution4::insertionSort(std::vector<int>& arr) {
         }
         arr[j+1] = key;
     }
+}
+
+/*********************测试例子构造***********************/
+TEST(sort_test, test1_quickSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    int n = arr.size();
+    quickSort(arr, 0, n - 1);
+    pVector(arr,"quickSort");
+}
+
+TEST(sort_test, test2_bubbleSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    bubbleSort(arr);
+    pVector(arr,"bubbleSort");
+}
+
+TEST(sort_test, test3_heapSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    int n = arr.size();
+    heapSort(arr, n);
+    pVector(arr,"heapSort");
+}
+
+TEST(sort_test, test4_insertionSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    insertionSort(arr);
+    pVector(arr,"insertionSort");
 }

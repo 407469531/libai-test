@@ -1,82 +1,19 @@
-#include "list1.h"
-/*********************测试例子构造***********************/
-void reverseListTest(){
-    Solution2 so;
-    ListNode* node1 = new ListNode(1);
-    ListNode* node2 = new ListNode(2);
-    ListNode* node3 = new ListNode(3);
-    ListNode* node4 = new ListNode(4);
-    ListNode* node5 = new ListNode(5);
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = node4;
-    node4->next = node5;
+#include "pub.h"
 
-    pList(node1,"reverseList input");
-    so.reverseList(node1);
-    pList(node1,"reverseList output");
+/* test 1 ******************** 206.反转链表***************/
+ListNode* reverseList(ListNode* head) {
+    ListNode* newlist = NULL;
+    while(head){
+        ListNode* next = head->next;
+        head->next = newlist;
+        newlist = head;
+        head = next;
+    }
+    return newlist;
 }
 
-void isPalindromeTest(){
-    Solution2 so;
-    ListNode* node1 = new ListNode(1);
-    ListNode* node2 = new ListNode(2);
-    ListNode* node3 = new ListNode(3);
-    ListNode* node4 = new ListNode(2);
-    ListNode* node5 = new ListNode(1);
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = node4;
-    node4->next = node5;
-
-    pList(node1,"isPalindrome input");
-    so.isPalindrome(node1);
-    pList(node1,"isPalindrome output");
-}
-
-void deleteDuplicates1Test(){
-    Solution2 so;
-    ListNode* node1 = new ListNode(1);
-    ListNode* node2 = new ListNode(1);
-    ListNode* node3 = new ListNode(2);
-    ListNode* node4 = new ListNode(3);
-    ListNode* node5 = new ListNode(4);
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = node4;
-    node4->next = node5;
-
-    pList(node1,"deleteDuplicates1 input");
-    ListNode* ret1 =  so.deleteDuplicates1(node1);
-    pList(ret1,"deleteDuplicates1 output");
-}
-
-void deleteDuplicates2Test() {
-    Solution2 so;
-    ListNode* node1 = new ListNode(1);
-    ListNode* node2 = new ListNode(1);
-    ListNode* node3 = new ListNode(2);
-    ListNode* node4 = new ListNode(3);
-    ListNode* node5 = new ListNode(4);
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = node4;
-    node4->next = node5;
-
-    pList(node1,"deleteDuplicates2 input");
-    ListNode* ret2 =  so.deleteDuplicates2(node1);
-    pList(ret2,"deleteDuplicates2 output");
-}
-// list test enter
-void listtest(){
-    deleteDuplicates1Test();
-    deleteDuplicates2Test();
-    reverseListTest();
-    isPalindromeTest();
-}
-
-/********************* 234.回文链表 ***************/
-ListNode* Solution2::endOfFirstHalf(ListNode* head) {
+/* test 2 ******************** 234.回文链表 ***************/
+ListNode* endOfFirstHalf(ListNode* head) {
     ListNode* fast = head;
     ListNode* slow = head;
     while(fast->next != nullptr && fast->next->next != nullptr){
@@ -85,7 +22,7 @@ ListNode* Solution2::endOfFirstHalf(ListNode* head) {
     }
     return slow;
 }
-bool Solution2::isPalindrome(ListNode* head) {
+bool isPalindrome(ListNode* head) {
     if(head == nullptr)
         return true;
 
@@ -109,20 +46,10 @@ bool Solution2::isPalindrome(ListNode* head) {
     return res;
 }
 
-/********************* 206.反转链表***************/
-ListNode* Solution2::reverseList(ListNode* head) {
-    ListNode* newlist = NULL;
-    while(head){
-        ListNode* next = head->next;
-        head->next = newlist;
-        newlist = head;
-        head = next;
-    }
-    return newlist;
-}
-/*********** 82.删除排序链表中的重复元素2 *********/
+
+/* test 3 ********** 82.删除排序链表中的重复元素2 *********/
 // {1,1,2,3} -> {2,3}
-ListNode* Solution2::deleteDuplicates2(ListNode* head) {
+ListNode* deleteDuplicates2(ListNode* head) {
     ListNode* dummy = new ListNode(0,head);
     ListNode* cur = dummy;
     while(cur->next && cur->next->next){
@@ -135,9 +62,9 @@ ListNode* Solution2::deleteDuplicates2(ListNode* head) {
     }
     return dummy->next;
 }
-/*********** 83.删除排序链表中的重复元素1 *********/
+/* test 4 ********** 83.删除排序链表中的重复元素1 *********/
 // {1,1,2,3} -> {1,2,3}
-ListNode* Solution2::deleteDuplicates1(ListNode* head) {
+ListNode* deleteDuplicates1(ListNode* head) {
     ListNode* cur = head;
     while(cur->next){
         if(cur->val == cur->next->val){
@@ -147,4 +74,91 @@ ListNode* Solution2::deleteDuplicates1(ListNode* head) {
         }
     }
     return head;
+}
+
+/*********************测试例子构造***********************/
+
+list<int> toList(ListNode* res){
+    list<int> tmp;
+    while(res){
+        tmp.push_back(res->val);
+        res = res->next;
+    }
+    return tmp;
+}
+
+TEST(list_test, test1_reverseList){
+    ListNode* node1 = new ListNode(1);
+    ListNode* node2 = new ListNode(2);
+    ListNode* node3 = new ListNode(3);
+    ListNode* node4 = new ListNode(4);
+    ListNode* node5 = new ListNode(5);
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node5;
+
+    pList(node1,"reverseList input");
+    ListNode* res = reverseList(node1);
+    pList(res,"reverseList output");
+
+    list<int> tmp = toList(res);
+    list<int> rightResult = {5,4,3,2,1};
+    EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
+}
+
+TEST(list_test, test2_isPalindrome){
+    ListNode* node1 = new ListNode(1);
+    ListNode* node2 = new ListNode(2);
+    ListNode* node3 = new ListNode(3);
+    ListNode* node4 = new ListNode(2);
+    ListNode* node5 = new ListNode(1);
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node5;
+
+    pList(node1,"isPalindrome input");
+    EXPECT_EQ(isPalindrome(node1), true);
+}
+
+TEST(list_test, test3_deleteDuplicates1){
+    ListNode* node1 = new ListNode(1);
+    ListNode* node2 = new ListNode(1);
+    ListNode* node3 = new ListNode(2);
+    ListNode* node4 = new ListNode(3);
+    ListNode* node5 = new ListNode(4);
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node5;
+
+    pList(node1,"deleteDuplicates1 input");
+    ListNode* res = deleteDuplicates1(node1);
+    pList(res,"deleteDuplicates1 output");
+
+    list<int> tmp = toList(res);
+    list<int> rightResult = {1,2,3,4};
+    EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
+
+}
+
+TEST(list_test, test4_deleteDuplicates2){
+    ListNode* node1 = new ListNode(1);
+    ListNode* node2 = new ListNode(1);
+    ListNode* node3 = new ListNode(2);
+    ListNode* node4 = new ListNode(3);
+    ListNode* node5 = new ListNode(4);
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node5;
+
+    pList(node1,"deleteDuplicates2 input");
+    ListNode* res = deleteDuplicates2(node1);
+    pList(res,"deleteDuplicates2 output");
+
+    list<int> tmp = toList(res);
+    list<int> rightResult = {2,3,4};
+    EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
 }

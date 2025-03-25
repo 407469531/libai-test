@@ -9,6 +9,7 @@
 #include <deque>
 #include <vector>
 #include <algorithm>
+#include <list>
 
 #include <gtest.h>
 using namespace std;

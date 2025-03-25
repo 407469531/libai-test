@@ -36,9 +36,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     io.h \
-    list1.h \
-    pub.h \
-    sort1.h
+    pub.h
 
 
 headers.path = ../include
