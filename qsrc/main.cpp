@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include "io.h"
+#include "pub.h"
 
 int gtest(int argc, char **argv){
     testing::InitGoogleTest(&argc, argv);

@@ -21,6 +21,7 @@ INCLUDEPATH += ../gtest/include
 LIBS += -L../gtest/lib/$${CODENAME} -lgtest
 
 SOURCES += \
+        container.cpp \
         io.cpp \
         list1.cpp \
         main.cpp \

@@ -10,6 +10,9 @@
 #include <vector>
 #include <algorithm>
 #include <list>
+#include <forward_list>
+#include <stack>
+#include <queue>
 
 #include <gtest.h>
 using namespace std;
