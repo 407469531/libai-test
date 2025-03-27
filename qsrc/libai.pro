@@ -2,7 +2,7 @@ QT -= gui
 
 CONFIG += c++17 console
 CONFIG -= app_bundle
-
+QMAKE_CXXFLAGS += -std=c++2a
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -22,7 +22,6 @@ LIBS += -L../gtest/lib/$${CODENAME} -lgtest
 
 SOURCES += \
         container.cpp \
-        io.cpp \
         list1.cpp \
         main.cpp \
         pub.cpp \
@@ -36,7 +35,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    io.h \
     pub.h
 
 

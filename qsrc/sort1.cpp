@@ -89,6 +89,25 @@ void selectSort(std::vector<int>& arr) {
         swap(arr[min],arr[i]);
     }
 }
+/* test 6 *******************希尔排序************************/
+void insert(vector<int>& arr, int h, int i){
+    int temp = arr[i];
+    int k;
+    for(k = i - h; k >= 0 && temp < arr[k]; k-=h){//
+        arr[k+h] = arr[k];
+    }
+    arr[k+h] = temp;
+}
+
+
+void shellSort(std::vector<int>& arr){
+    int n = arr.size();
+    for(int h = n/2; h >0; h/=2){
+        for(int i = h; i < n; ++i){
+            insert(arr,h,i);
+        }
+    }
+}
 
 /*********************测试例子构造***********************/
 TEST(sort_test, test1_quickSort){
@@ -141,5 +160,14 @@ TEST(sort_test, test5_selectSort){
 
     vector<int> rightResult = {1,5,7,8,9,10};
     EXPECT_EQ(arr, rightResult);
+}
 
+TEST(sort_test, test6_shellSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"shellSort input");
+    shellSort(arr);
+    pVector(arr,"shellSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
 }
