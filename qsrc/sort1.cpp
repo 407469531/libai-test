@@ -99,12 +99,59 @@ void insert(vector<int>& arr, int h, int i){
     arr[k+h] = temp;
 }
 
-
 void shellSort(std::vector<int>& arr){
     int n = arr.size();
     for(int h = n/2; h >0; h/=2){
         for(int i = h; i < n; ++i){
             insert(arr,h,i);
+        }
+    }
+}
+/* test 7 *******************归并排序************************/
+// 递归版
+//void merge(std::vector<int>& arr, int left, int mid, int right){
+
+//}
+
+// 非递归版
+void mergeSort(std::vector<int>& arr){
+    int n = arr.size();
+    for(int curr_size = 1; curr_size < n; curr_size += curr_size){
+        for(int left_start = 0; left_start < n - 1; left_start += 2*curr_size){
+            int mid = std::min(left_start + curr_size - 1, n-1);
+            int right_end = std::min(left_start + 2*curr_size - 1, n-1);
+
+            int n1 = mid - left_start + 1;
+            int n2 = right_end - mid;
+
+            std::vector<int> L(n1), R(n2);
+            for(int i = 0; i < n1; ++i)
+                L[i] = arr[left_start+i];
+            for(int j = 0; j < n2; ++j)
+                R[j] = arr[mid+1+j];
+
+            int i = 0, j = 0, k = left_start;
+            while(i < n1 && j < n2){
+                if(L[i] <= R[j]){
+                    arr[k] = L[i];
+                    i++;
+                } else {
+                    arr[k] = R[j];
+                    j++;
+                }
+                k++;
+            }
+
+            while(i < n1){
+                arr[k] = L[i];
+                i++;
+                k++;
+            }
+            while(j < n2){
+                arr[k] = R[j];
+                j++;
+                k++;
+            }
         }
     }
 }
@@ -167,6 +214,16 @@ TEST(sort_test, test6_shellSort){
     pVector(arr,"shellSort input");
     shellSort(arr);
     pVector(arr,"shellSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
+
+TEST(sort_test, test7_mergeSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"mergeSort input");
+    mergeSort(arr);
+    pVector(arr,"mergeSort output");
 
     vector<int> rightResult = {1,5,7,8,9,10};
     EXPECT_EQ(arr, rightResult);

@@ -1,5 +1,18 @@
 #ifndef PUB_H
 #define PUB_H
+
+/*
+          ／＞　　   フ
+　　　　　|  　_　 _ |
+　 　　　／; ミ＿xノ
+　　 　 /　　　 　 |
+　　　 /　 ヽ　　 ﾉ
+　 　 │　　|　|　|
+　／￣|　　 |　|　|
+　| (￣ヽ＿_ヽ_)__)
+　＼二つ
+*/
+
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -27,4 +40,18 @@ struct ListNode {
 
 void pVector(vector<int>& vs,string name="");
 void pList(ListNode* in,string name="");
+
+size_t getMemInUse();
+std::string memStr(size_t bytes);
+
+class MemStamp{
+protected:
+    size_t _startMem;
+    const char* _name;
+public:
+    MemStamp(const char* name = NULL, bool enable = true) : _startMem(enable ? getMemInUse() : 0), _name(name){}
+    ~MemStamp();
+};
+
+
 #endif // MAIN_H
