@@ -27,8 +27,8 @@ MemStamp::~MemStamp(){
     if(_startMem){
         size_t endMem = getMemInUse();
         if(endMem > _startMem)
-            printf("MemStamp[%s]: incrMem:%s MemInUse:%s", _name?_name:"", memStr(endMem - _startMem).c_str(), memStr(endMem).c_str());
+            printf("MemStamp[%s]: incrMem:%s MemInUse:%s\n", _name?_name:"", memStr(endMem - _startMem).c_str(), memStr(endMem).c_str());
         else
-            printf("MemStamp[%s]: incrMem:%s MemInUse:%s", _name?_name:"", memStr(_startMem - endMem).c_str(), memStr(endMem).c_str());
+            printf("MemStamp[%s]: incrMem:%s MemInUse:%s\n", _name?_name:"", memStr(_startMem - endMem).c_str(), memStr(endMem).c_str());
     }
 }

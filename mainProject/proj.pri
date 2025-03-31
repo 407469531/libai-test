@@ -3,11 +3,12 @@ CONFIG += silent
 DEFINES += USE_MEMPOOL
 
 TOP_PATH = ../..
+CODENAME = $$system( cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d'=' -f2 )
 
 equals(TEMPLATE, lib){
-    DESTDIR = $${TOP_PATH}/lib/$${ARCH}
+    DESTDIR = $${TOP_PATH}/lib/$${CODENAME}
 } else:equals (TEMPLATE, app){
-    DESTDIR = $${TOP_PATH}/bin/$${ARCH}
+    DESTDIR = $${TOP_PATH}/bin/$${CODENAME}
 }
 
 

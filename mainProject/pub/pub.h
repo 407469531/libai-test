@@ -1,3 +1,5 @@
+#ifndef PUB_H
+#define PUB_H
 /*
           ／＞　　   フ
 　　　　　|  　_　 _ |
@@ -10,7 +12,7 @@
 　＼二つ
 */
 
-#include <stdio.h>
+#include <unistd.h>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -36,3 +38,6 @@ public:
     MemStamp(const char* name = NULL, bool enable = true) : _startMem(enable ? getMemInUse() : 0), _name(name){}
     ~MemStamp();
 };
+
+
+#endif

@@ -1,3 +1,6 @@
+TEMPLATE = app
+TARGET = main
+
 QT -= gui
 
 CONFIG += c++11 console
@@ -14,8 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-        main.cpp
+include(../proj.pri)
+
+SOURCES += main.cpp
+
+INCLUDEPATH += ../pub
+
+LIBS += -L$${TOP_PATH}/lib/$${CODENAME} -lpub
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

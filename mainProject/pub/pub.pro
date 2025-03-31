@@ -13,7 +13,7 @@ include(../proj.pri)
 
 INCLUDEPATH +=
 
-
+QMAKE_CLEAN += $${TOP_PATH}/lib/$${CODENAME}/libpub.a
 
 
 
