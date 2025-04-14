@@ -4,9 +4,14 @@ QT -= core gui
 MYMODULE_NAME = pub
 
 HEADERS += \
+    memManage.h \
+    memPool.h \
+    objectPool.h \
     pub.h
 
 SOURCES += \
+    memManage.cpp \
+    objectPool.cpp \
     pub.cpp
 
 include(../proj.pri)
