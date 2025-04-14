@@ -17,8 +17,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #CODENAME = $$system( cat /etc/lsb-release | grep DISTRIB_CODENAME | awk -F'=' '{print $2}' )
 CODENAME = $$system( cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d'=' -f2 )
 
-INCLUDEPATH += ../gtest/include
+INCLUDEPATH += ../gtest/include/gtest
 LIBS += -L../gtest/lib/$${CODENAME} -lgtest
+LIBS += -lbenchmark -lpthread
 
 SOURCES += \
         container.cpp \
