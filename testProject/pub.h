@@ -27,7 +27,7 @@
 #include <stack>
 #include <queue>
 
-#include <gtest.h>
+#include <gtest/gtest.h>
 using namespace std;
 
 struct ListNode {

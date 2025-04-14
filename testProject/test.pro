@@ -17,11 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #CODENAME = $$system( cat /etc/lsb-release | grep DISTRIB_CODENAME | awk -F'=' '{print $2}' )
 CODENAME = $$system( cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d'=' -f2 )
 
-INCLUDEPATH += ../gtest/include/gtest
+INCLUDEPATH += ../gtest/include
+
 LIBS += -L../gtest/lib/$${CODENAME} -lgtest
 
 SOURCES += \
         container.cpp \
+        io.cpp \
         list1.cpp \
         main.cpp \
         pub.cpp \
@@ -34,9 +36,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-HEADERS += \
-    pub.h
-
+HEADERS += pub.h
 
 headers.path = ../include
 headers.files = *.h
