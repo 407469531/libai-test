@@ -156,12 +156,65 @@ void mergeSort(std::vector<int>& arr){
     }
 }
 /* test 8 *******************计数排序************************/
+void countingSort(std::vector<int>& arr){
+    if(arr.size() < 2) return;
+    int n = arr.size();
+    int max = arr[0];
+    int min = arr[0];
+    for(int i=1; i<n; ++i){
+        if(arr[i]>max)
+            max = arr[i];
+        if(arr[i]<min)
+            min = arr[i];
+    }
+    int d = max-min+1;
+    vector<int> temp(d,0);
+    for(int i=0; i<n; ++i){
+        temp[arr[i]]++;
+    }
 
-
+    int k=0;
+    for(int i=0; i<= max; ++i){
+        for(int j = temp[i]; j > 0; j--){
+            arr[k++] = i;
+        }
+    }
+    return;
+}
 
 /* test 9 *******************桶排序************************/
+void bucketSort(std::vector<int>& arr){
+    if(arr.size() < 2) return;
+    int n = arr.size();
+    int max = arr[0];
+    int min = arr[0];
+    for(int i=1; i<n; ++i){
+        if(arr[i]>max)
+            max = arr[i];
+        if(arr[i]<min)
+            min = arr[i];
+    }
+    int d = max-min;
+    int bucketNum = 2;
+    vector<vector<int>> buckets(bucketNum);
 
-
+    int bucketWidth = d / bucketNum;
+    for(int i=0; i<n; ++i){
+        int index = (arr[i] - min) / bucketWidth;
+        if(index == bucketNum)
+            index--;
+        buckets[index].push_back(arr[i]);
+    }
+    int i=0;
+    for (auto& bucket: buckets) {
+        sort(bucket.begin(),bucket.end());
+        for (auto& val: bucket) {
+            arr[i] = val;
+            ++i;
+        }
+    }
+    return;
+}
 
 /*********************测试例子构造***********************/
 TEST(sort_test, test1_quickSort){
@@ -231,6 +284,24 @@ TEST(sort_test, test7_mergeSort){
     pVector(arr,"mergeSort input");
     mergeSort(arr);
     pVector(arr,"mergeSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
+TEST(sort_test, test8_countingSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"countingSort input");
+    countingSort(arr);
+    pVector(arr,"countingSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
+TEST(sort_test, test9_bucketSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"bucketSort input");
+    bucketSort(arr);
+    pVector(arr,"bucketSort output");
 
     vector<int> rightResult = {1,5,7,8,9,10};
     EXPECT_EQ(arr, rightResult);
