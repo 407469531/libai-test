@@ -170,13 +170,13 @@ void countingSort(std::vector<int>& arr){
     int d = max-min+1;
     vector<int> temp(d,0);
     for(int i=0; i<n; ++i){
-        temp[arr[i]]++;
+        temp[arr[i]-min]++;
     }
 
     int k=0;
-    for(int i=0; i<= max; ++i){
+    for(int i=0; i< d; ++i){
         for(int j = temp[i]; j > 0; j--){
-            arr[k++] = i;
+            arr[k++] = i+min;
         }
     }
     return;
@@ -215,6 +215,8 @@ void bucketSort(std::vector<int>& arr){
     }
     return;
 }
+/* test 10 *******************基数排序************************/
+
 
 /*********************测试例子构造***********************/
 TEST(sort_test, test1_quickSort){

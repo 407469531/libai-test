@@ -59,7 +59,6 @@ vector<int> twoSum(vector<int>& nums, int target) {
         if(value_key.find(target-nums[i]) != value_key.end())
             return {value_key[target-nums[i]] , i};
         value_key[nums[i]]=i;
-
     }
     return {};
 }
@@ -119,6 +118,23 @@ int subarraySum(vector<int>& nums, int k) {
     }
     return count;
 }
+
+/* test 7 ****************** 49.字母异位词分组 *************************/
+//给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
+vector<vector<string>> groupAnagrams(vector<string>& strs) {
+    unordered_map<string,vector<string>> mp;
+    for(auto& str : strs){
+        string tmp = str;
+        sort(tmp.begin(),tmp.end());
+        mp[tmp].emplace_back(str);
+    }
+    vector<vector<string>> res;
+    for(auto& it : mp){
+        res.emplace_back(it.second);
+    }
+    return res;
+}
+
 /*********************测试例子构造***********************/
 TEST(vector_test, test1_trap){
     vector<int> vec={0,1,0,2,1,0,1,3,2,1,2,1};
@@ -163,4 +179,10 @@ TEST(vector_test, test6_subarraySum){
     int res2 = subarraySum(vec2,2);
     EXPECT_EQ(res2, 2);
 }
+TEST(vector_test, test7_groupAnagrams){
+    vector<string> strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+    vector<vector<string>> res = groupAnagrams(strs);
+    vector<vector<string>> right = {{"bat"},{"tan","nat"},{"eat","tea","ate"}};
+    EXPECT_EQ(res, right);
 
+}
