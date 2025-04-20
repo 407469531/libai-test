@@ -29,6 +29,7 @@ SOURCES += \
         pub.cpp \
         sort1.cpp \
         string1.cpp \
+        tree.cpp \
         vector1.cpp
 
 # Default rules for deployment.
