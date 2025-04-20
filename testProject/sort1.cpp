@@ -20,6 +20,16 @@ void quickSort(std::vector<int>& arr, int low, int high){
         quickSort(arr, mid+1,high);
     }
 }
+TEST(sort_test, test1_quickSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    int n = arr.size();
+    pVector(arr,"quickSort input");
+    quickSort(arr, 0, n - 1);
+    pVector(arr,"quickSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
 /* test 2 ******************冒泡排序*************************/
 void bubbleSort(std::vector<int>& arr){
     if(arr.size() < 2)
@@ -37,7 +47,15 @@ void bubbleSort(std::vector<int>& arr){
             break;
     }
 }
+TEST(sort_test, test2_bubbleSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"bubbleSort input");
+    bubbleSort(arr);
+    pVector(arr,"bubbleSort output");
 
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
 /* test 3 ********************堆排序***********************/
 void heapify(std::vector<int>& arr, int n, int i) {
     int largest = i;
@@ -64,6 +82,16 @@ void heapSort(std::vector<int>& arr, int n) {
         heapify(arr, i, 0);
     }
 }
+TEST(sort_test, test3_heapSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    int n = arr.size();
+    pVector(arr,"heapSort input");
+    heapSort(arr, n);
+    pVector(arr,"heapSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
 /* test 4 *******************插入排序************************/
 void insertionSort(std::vector<int>& arr) {
     int n = arr.size();
@@ -77,6 +105,15 @@ void insertionSort(std::vector<int>& arr) {
         arr[j+1] = key;
     }
 }
+TEST(sort_test, test4_insertionSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"insertionSort input");
+    insertionSort(arr);
+    pVector(arr,"insertionSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
 /* test 5 *******************选择排序************************/
 void selectSort(std::vector<int>& arr) {
     int n = arr.size();
@@ -88,6 +125,15 @@ void selectSort(std::vector<int>& arr) {
         }
         swap(arr[min],arr[i]);
     }
+}
+TEST(sort_test, test5_selectSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"selectSort input");
+    selectSort(arr);
+    pVector(arr,"selectSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
 }
 /* test 6 *******************希尔排序************************/
 void insert(vector<int>& arr, int h, int i){
@@ -106,6 +152,15 @@ void shellSort(std::vector<int>& arr){
             insert(arr,h,i);
         }
     }
+}
+TEST(sort_test, test6_shellSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"shellSort input");
+    shellSort(arr);
+    pVector(arr,"shellSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
 }
 /* test 7 *******************归并排序************************/
 // 递归版
@@ -155,6 +210,15 @@ void mergeSort(std::vector<int>& arr){
         }
     }
 }
+TEST(sort_test, test7_mergeSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"mergeSort input");
+    mergeSort(arr);
+    pVector(arr,"mergeSort output");
+
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
 /* test 8 *******************计数排序************************/
 void countingSort(std::vector<int>& arr){
     if(arr.size() < 2) return;
@@ -181,7 +245,15 @@ void countingSort(std::vector<int>& arr){
     }
     return;
 }
+TEST(sort_test, test8_countingSort){
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    pVector(arr,"countingSort input");
+    countingSort(arr);
+    pVector(arr,"countingSort output");
 
+    vector<int> rightResult = {1,5,7,8,9,10};
+    EXPECT_EQ(arr, rightResult);
+}
 /* test 9 *******************桶排序************************/
 void bucketSort(std::vector<int>& arr){
     if(arr.size() < 2) return;
@@ -215,90 +287,6 @@ void bucketSort(std::vector<int>& arr){
     }
     return;
 }
-/* test 10 *******************基数排序************************/
-
-
-/*********************测试例子构造***********************/
-TEST(sort_test, test1_quickSort){
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    int n = arr.size();
-    pVector(arr,"quickSort input");
-    quickSort(arr, 0, n - 1);
-    pVector(arr,"quickSort output");
-
-    vector<int> rightResult = {1,5,7,8,9,10};
-    EXPECT_EQ(arr, rightResult);
-}
-
-TEST(sort_test, test2_bubbleSort){
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    pVector(arr,"bubbleSort input");
-    bubbleSort(arr);
-    pVector(arr,"bubbleSort output");
-
-    vector<int> rightResult = {1,5,7,8,9,10};
-    EXPECT_EQ(arr, rightResult);
-}
-
-TEST(sort_test, test3_heapSort){
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    int n = arr.size();
-    pVector(arr,"heapSort input");
-    heapSort(arr, n);
-    pVector(arr,"heapSort output");
-
-    vector<int> rightResult = {1,5,7,8,9,10};
-    EXPECT_EQ(arr, rightResult);
-}
-
-TEST(sort_test, test4_insertionSort){
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    pVector(arr,"insertionSort input");
-    insertionSort(arr);
-    pVector(arr,"insertionSort output");
-
-    vector<int> rightResult = {1,5,7,8,9,10};
-    EXPECT_EQ(arr, rightResult);
-}
-
-TEST(sort_test, test5_selectSort){
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    pVector(arr,"selectSort input");
-    selectSort(arr);
-    pVector(arr,"selectSort output");
-
-    vector<int> rightResult = {1,5,7,8,9,10};
-    EXPECT_EQ(arr, rightResult);
-}
-
-TEST(sort_test, test6_shellSort){
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    pVector(arr,"shellSort input");
-    shellSort(arr);
-    pVector(arr,"shellSort output");
-
-    vector<int> rightResult = {1,5,7,8,9,10};
-    EXPECT_EQ(arr, rightResult);
-}
-
-TEST(sort_test, test7_mergeSort){
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    pVector(arr,"mergeSort input");
-    mergeSort(arr);
-    pVector(arr,"mergeSort output");
-
-    vector<int> rightResult = {1,5,7,8,9,10};
-    EXPECT_EQ(arr, rightResult);
-}
-TEST(sort_test, test8_countingSort){
-    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
-    pVector(arr,"countingSort input");
-    countingSort(arr);
-    pVector(arr,"countingSort output");
-
-    vector<int> rightResult = {1,5,7,8,9,10};
-    EXPECT_EQ(arr, rightResult);
-}
 TEST(sort_test, test9_bucketSort){
     std::vector<int> arr = {10, 7, 8, 9, 1, 5};
     pVector(arr,"bucketSort input");
@@ -308,3 +296,6 @@ TEST(sort_test, test9_bucketSort){
     vector<int> rightResult = {1,5,7,8,9,10};
     EXPECT_EQ(arr, rightResult);
 }
+/* test 10 *******************基数排序************************/
+
+

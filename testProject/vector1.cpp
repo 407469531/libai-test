@@ -78,6 +78,7 @@ TEST(vector_test, test3_twoSum){
     EXPECT_EQ(res , rightResult);
 }
 /* test 4 ****************** 283.移动零 *************************/
+//给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
 void moveZeroes(vector<int>& nums) {
     int left(0);
     int right(0);
@@ -201,4 +202,30 @@ TEST(vector_test, test8_longestConsecutive){
     int res = longestConsecutive(nums);
     EXPECT_EQ(res, 4);
 }
+/* test 9 ****************** 11.盛最多水的容器 *************************/
+// 给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
+// 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+// 返回容器可以储存的最大水量。
+int maxArea(vector<int>& height) {
+    int left(0);
+    int right = height.size()-1;
+    int maxValue(0);
+    while(left < right){
+        int minY = min(height[left], height[right]);
+        int curValue = minY * (right - left);
+        maxValue = max(maxValue,curValue);
+        if(height[left] < height[right])
+            left++;
+        else
+            right--;
+    }
+    return maxValue;
+}
+TEST(vector_test, test8_maxArea){
+    vector<int> nums = {1,8,6,2,5,4,8,3,7};
+    int res = maxArea(nums);
+    EXPECT_EQ(res, 49);
+}
+
+
 
