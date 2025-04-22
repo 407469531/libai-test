@@ -12,7 +12,7 @@ TreeNode* createBinaryTree(std::vector<int>& nums, int index) {
 }
 
 /* test 1 ****************** 94.二叉树的中序遍历 *************************/
-// 给定一个二叉树的根节点 root ，返回 它的 中序 遍历 。
+// 左根右
 void inorder(TreeNode* root, vector<int>& res){
     if(root){
         inorder(root->left, res);
@@ -36,4 +36,66 @@ TEST(tree_test, test1_inorderTraversal){
     EXPECT_EQ(res, right);
 }
 
+/* test 2 ****************** 104.二叉树的最大深度 ************************/
+int maxDepth(TreeNode* root) {
+    if(root == nullptr)
+        return 0;
+    int left = maxDepth(root->left);
+    int right = maxDepth(root->right);
+    int cur = max(left, right) + 1;
+    return cur;
+}
 
+TEST(tree_test, test2_maxDepth){
+    std::vector<int> nums = {3, 9, 20, -1, -1, 15, 7};
+    TreeNode* root = createBinaryTree(nums, 0);
+    int depth = maxDepth(root);
+    EXPECT_EQ(depth, 3);
+}
+/* test 3 ****************** 144.二叉树的前序遍历 *************************/
+// 根左右
+void preorder(TreeNode* root, vector<int>& res){
+    if(root){
+        res.emplace_back(root->val);
+        preorder(root->left, res);
+        preorder(root->right, res);
+    }
+}
+
+vector<int> preorderTraversal(TreeNode* root) {
+    vector<int> res;
+    preorder(root, res);
+    return res;
+}
+
+TEST(tree_test, test3_preorderTraversal){
+    vector<int> nums={1,-1,2,-1,-1,3,-1};
+    TreeNode *root = createBinaryTree(nums,0);
+    vector<int> res = preorderTraversal(root);
+
+    vector<int> right = {1,2,3};
+    EXPECT_EQ(res, right);
+}
+/* test 4 ****************** 145.二叉树的后序遍历 *************************/
+// 左右根
+void postorder(TreeNode* root, vector<int>& res){
+    if(root){
+        postorder(root->left, res);
+        postorder(root->right, res);
+        res.emplace_back(root->val);
+    }
+}
+vector<int> postorderTraversal(TreeNode* root) {
+    vector<int> res;
+    postorder(root, res);
+    return res;
+}
+
+TEST(tree_test, test4_postorderTraversal){
+    vector<int> nums={1,-1,2,-1,-1,3,-1};
+    TreeNode *root = createBinaryTree(nums,0);
+    vector<int> res = postorderTraversal(root);
+
+    vector<int> right = {3,2,1};
+    EXPECT_EQ(res, right);
+}
