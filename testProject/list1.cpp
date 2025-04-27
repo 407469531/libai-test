@@ -50,17 +50,20 @@ bool isPalindrome(ListNode* head) {
 /* test 3 ********** 82.删除排序链表中的重复元素2 *********/
 // {1,1,2,3} -> {2,3}
 ListNode* deleteDuplicates2(ListNode* head) {
-    ListNode* dummy = new ListNode(0,head);
-    ListNode* cur = dummy;
+    ListNode dummy = ListNode(0,head);
+    ListNode* cur = &dummy;
     while(cur->next && cur->next->next){
         if(cur->next->val == cur->next->next->val){
             int x=cur->next->val;
-            while(cur->next && x == cur->next->val)
+            while(cur->next && x == cur->next->val){
+                ListNode* tmp2 = cur->next;
                 cur->next = cur->next->next;
+                delete tmp2;
+            }
         } else
             cur = cur->next;
     }
-    return dummy->next;
+    return dummy.next;
 }
 /* test 4 ********** 83.删除排序链表中的重复元素1 *********/
 // {1,1,2,3} -> {1,2,3}
@@ -68,7 +71,9 @@ ListNode* deleteDuplicates1(ListNode* head) {
     ListNode* cur = head;
     while(cur->next){
         if(cur->val == cur->next->val){
+            ListNode* tmp = cur->next;
             cur->next = cur->next->next;
+            delete tmp;
         } else {
             cur = cur->next;
         }
@@ -77,7 +82,6 @@ ListNode* deleteDuplicates1(ListNode* head) {
 }
 
 /*********************测试例子构造***********************/
-
 list<int> toList(ListNode* res){
     list<int> tmp;
     while(res){
@@ -86,79 +90,77 @@ list<int> toList(ListNode* res){
     }
     return tmp;
 }
+// 创建链表
+ListNode* createList(vector<int> vals){
+    ListNode* node1 = new ListNode(1);
+    ListNode* p = node1;
+
+    ListNode* tmp = node1;
+    int size = vals.size();
+    for(int i = 1; i<size; ++i){
+        ListNode* node = new ListNode(vals[i]);
+        tmp->next = node;
+        tmp = tmp->next;
+    }
+    return p;
+}
+// 释放链表
+void deleteList(ListNode* head){
+    ListNode* tmp;
+    while(head){
+        tmp = head;
+        head = head->next;
+        delete tmp;
+    }
+}
 
 TEST(list_test, test1_reverseList){
-    ListNode* node1 = new ListNode(1);
-    ListNode* node2 = new ListNode(2);
-    ListNode* node3 = new ListNode(3);
-    ListNode* node4 = new ListNode(4);
-    ListNode* node5 = new ListNode(5);
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = node4;
-    node4->next = node5;
+    vector<int> vals={1,2,3,4,5};
+    ListNode* node = createList(vals);
 
-    pList(node1,"reverseList input");
-    ListNode* res = reverseList(node1);
+    pList(node,"reverseList input");
+    ListNode* res = reverseList(node);
     pList(res,"reverseList output");
 
     list<int> tmp = toList(res);
     list<int> rightResult = {5,4,3,2,1};
     EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
+    deleteList(res);
 }
 
 TEST(list_test, test2_isPalindrome){
-    ListNode* node1 = new ListNode(1);
-    ListNode* node2 = new ListNode(2);
-    ListNode* node3 = new ListNode(3);
-    ListNode* node4 = new ListNode(2);
-    ListNode* node5 = new ListNode(1);
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = node4;
-    node4->next = node5;
+    vector<int> vals={1,2,3,2,1};
+    ListNode* node = createList(vals);
 
-    pList(node1,"isPalindrome input");
-    EXPECT_EQ(isPalindrome(node1), true);
+    pList(node,"isPalindrome input");
+    EXPECT_EQ(isPalindrome(node), true);
+    deleteList(node);
 }
 
 TEST(list_test, test3_deleteDuplicates1){
-    ListNode* node1 = new ListNode(1);
-    ListNode* node2 = new ListNode(1);
-    ListNode* node3 = new ListNode(2);
-    ListNode* node4 = new ListNode(3);
-    ListNode* node5 = new ListNode(4);
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = node4;
-    node4->next = node5;
+   vector<int> vals={1,1,2,3,4};
+   ListNode* node = createList(vals);
 
-    pList(node1,"deleteDuplicates1 input");
-    ListNode* res = deleteDuplicates1(node1);
+    pList(node,"deleteDuplicates1 input");
+    ListNode* res = deleteDuplicates1(node);
     pList(res,"deleteDuplicates1 output");
 
     list<int> tmp = toList(res);
     list<int> rightResult = {1,2,3,4};
     EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
-
+    deleteList(res);
 }
 
 TEST(list_test, test4_deleteDuplicates2){
-    ListNode* node1 = new ListNode(1);
-    ListNode* node2 = new ListNode(1);
-    ListNode* node3 = new ListNode(2);
-    ListNode* node4 = new ListNode(3);
-    ListNode* node5 = new ListNode(4);
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = node4;
-    node4->next = node5;
+    vector<int> vals={1,1,2,3,4};
+    ListNode* node = createList(vals);
 
-    pList(node1,"deleteDuplicates2 input");
-    ListNode* res = deleteDuplicates2(node1);
+    pList(node,"deleteDuplicates2 input");
+    ListNode* res = deleteDuplicates2(node);
     pList(res,"deleteDuplicates2 output");
 
     list<int> tmp = toList(res);
     list<int> rightResult = {2,3,4};
     EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
+    deleteList(res);
 }
