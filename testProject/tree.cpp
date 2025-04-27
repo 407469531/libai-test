@@ -10,6 +10,14 @@ TreeNode* createBinaryTree(std::vector<int>& nums, int index) {
     root->right = createBinaryTree(nums, 2 * index + 2);
     return root;
 }
+// 释放二叉树
+void freeBinaryTree(TreeNode* tree){
+    if(tree == nullptr)
+        return;
+    freeBinaryTree(tree->left);
+    freeBinaryTree(tree->right);
+    delete tree;
+}
 
 /* test 1 ****************** 94.二叉树的中序遍历 *************************/
 // 左根右
@@ -34,25 +42,9 @@ TEST(tree_test, test1_inorderTraversal){
 
     vector<int> right = {1,3,2};
     EXPECT_EQ(res, right);
+    freeBinaryTree(root);
 }
-
-/* test 2 ****************** 104.二叉树的最大深度 ************************/
-int maxDepth(TreeNode* root) {
-    if(root == nullptr)
-        return 0;
-    int left = maxDepth(root->left);
-    int right = maxDepth(root->right);
-    int cur = max(left, right) + 1;
-    return cur;
-}
-
-TEST(tree_test, test2_maxDepth){
-    std::vector<int> nums = {3, 9, 20, -1, -1, 15, 7};
-    TreeNode* root = createBinaryTree(nums, 0);
-    int depth = maxDepth(root);
-    EXPECT_EQ(depth, 3);
-}
-/* test 3 ****************** 144.二叉树的前序遍历 *************************/
+/* test 2 ****************** 144.二叉树的前序遍历 *************************/
 // 根左右
 void preorder(TreeNode* root, vector<int>& res){
     if(root){
@@ -68,15 +60,16 @@ vector<int> preorderTraversal(TreeNode* root) {
     return res;
 }
 
-TEST(tree_test, test3_preorderTraversal){
+TEST(tree_test, test2_preorderTraversal){
     vector<int> nums={1,-1,2,-1,-1,3,-1};
     TreeNode *root = createBinaryTree(nums,0);
     vector<int> res = preorderTraversal(root);
 
     vector<int> right = {1,2,3};
     EXPECT_EQ(res, right);
+    freeBinaryTree(root);
 }
-/* test 4 ****************** 145.二叉树的后序遍历 *************************/
+/* test 3 ****************** 145.二叉树的后序遍历 *************************/
 // 左右根
 void postorder(TreeNode* root, vector<int>& res){
     if(root){
@@ -91,11 +84,30 @@ vector<int> postorderTraversal(TreeNode* root) {
     return res;
 }
 
-TEST(tree_test, test4_postorderTraversal){
+TEST(tree_test, test3_postorderTraversal){
     vector<int> nums={1,-1,2,-1,-1,3,-1};
     TreeNode *root = createBinaryTree(nums,0);
     vector<int> res = postorderTraversal(root);
 
     vector<int> right = {3,2,1};
     EXPECT_EQ(res, right);
+    freeBinaryTree(root);
 }
+/* test 4 ****************** 104.二叉树的最大深度 ************************/
+int maxDepth(TreeNode* root) {
+    if(root == nullptr)
+        return 0;
+    int left = maxDepth(root->left);
+    int right = maxDepth(root->right);
+    int cur = max(left, right) + 1;
+    return cur;
+}
+
+TEST(tree_test, test4_maxDepth){
+    std::vector<int> nums = {3, 9, 20, -1, -1, 15, 7};
+    TreeNode* root = createBinaryTree(nums, 0);
+    int depth = maxDepth(root);
+    EXPECT_EQ(depth, 3);
+    freeBinaryTree(root);
+}
+
