@@ -106,10 +106,46 @@ TEST(io_test, test2){
     int16_t data = 0xffff;
     EXPECT_EQ(BIGENDIAN::getShort(data), -1);
 
-}
-TEST(io_test, test3){
-    unsigned char data1[] = {0xff,0xff,0xff,0xff};
-    EXPECT_EQ(BIGENDIAN::getInt(data1), -1);
-    EXPECT_EQ(BIGENDIAN::getUInt(data1), 4294967295);
+
+    unsigned char data11[] = {0xff,0xff,0xff,0xff};
+    EXPECT_EQ(BIGENDIAN::getInt(data11), -1);
+    EXPECT_EQ(BIGENDIAN::getUInt(data11), 4294967295);
+
+
 }
 
+/* test 3 ********** 测试小端数据转换 *********/
+namespace LITTLEENDIAN {
+int16_t getShort(unsigned char* data){
+    return (data[1] << 8 | data[0]);
+}
+uint16_t getUShort(unsigned char* data) {
+    return (data[1] << 8 | data[0]);
+}
+int16_t getShort(char* data){
+    return (data[1] << 8 | data[0]);
+}
+uint16_t getUShort(char* data) {
+    return (data[1] << 8 | data[0]);
+}
+
+
+int32_t getInt(unsigned char* data){
+    return (data[0] << 16 | data[1] << 24 | data[2] | data[3] << 8 );
+}
+uint32_t getUInt(unsigned char* data){
+    return (data[0] << 16 | data[1] << 24 | data[2] | data[3]  << 8 );
+}
+};
+
+TEST(io_test, test3){
+    unsigned char data1[] = {0xff,0xff};
+    EXPECT_EQ(LITTLEENDIAN::getShort(data1), -1);
+    EXPECT_EQ(LITTLEENDIAN::getUShort(data1), 65535);
+    data1[0] = 0x00; data1[1] = 0x01;
+    EXPECT_EQ(LITTLEENDIAN::getShort(data1), 256);
+    EXPECT_EQ(LITTLEENDIAN::getUShort(data1), 256);
+    data1[0] = 0xff; data1[1] = 0xfe;
+    EXPECT_EQ(LITTLEENDIAN::getShort(data1), -257);
+    EXPECT_EQ(LITTLEENDIAN::getUShort(data1), 65279);
+}
