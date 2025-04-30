@@ -103,13 +103,19 @@ TEST(io_test, test2){
     EXPECT_EQ(BIGENDIAN::getShort(data2), -2);
     EXPECT_EQ(BIGENDIAN::getUShort(data2), 65534);
 
-    int16_t data = 0xffff;
-    EXPECT_EQ(BIGENDIAN::getShort(data), -1);
+    int16_t data3 = 0xffff;
+    EXPECT_EQ(BIGENDIAN::getShort(data3), -1);
 
 
     unsigned char data11[] = {0xff,0xff,0xff,0xff};
     EXPECT_EQ(BIGENDIAN::getInt(data11), -1);
     EXPECT_EQ(BIGENDIAN::getUInt(data11), 4294967295);
+    data11[0] = 0x00; data11[1] = 0x00; data11[2] = 0x00; data11[3] = 0x01;
+    EXPECT_EQ(BIGENDIAN::getInt(data11), 1);
+    EXPECT_EQ(BIGENDIAN::getUInt(data11), (uint32_t)1);
+    data11[0] = 0xff; data11[1] = 0xff; data11[2] = 0xff; data11[3] = 0xfe;
+    EXPECT_EQ(BIGENDIAN::getInt(data11), -2);
+    EXPECT_EQ(BIGENDIAN::getUInt(data11), (uint32_t)4294967294);
 
 
 }
@@ -148,4 +154,10 @@ TEST(io_test, test3){
     data1[0] = 0xff; data1[1] = 0xfe;
     EXPECT_EQ(LITTLEENDIAN::getShort(data1), -257);
     EXPECT_EQ(LITTLEENDIAN::getUShort(data1), 65279);
+
+
+    unsigned char data11[] = {0xff,0xff,0xff,0xff};
+    EXPECT_EQ(LITTLEENDIAN::getInt(data11), -1);
+    EXPECT_EQ(LITTLEENDIAN::getUInt(data11), 4294967295);
+
 }
