@@ -1,6 +1,6 @@
 #include "pub.h"
 
-/* test 1 ******* 3.无重复字符的最长子串长度 **********/
+/* 滑动窗口1 ******* 3.无重复字符的最长子串长度 **********/
 int lengthOfLongestSubstring(string s) {
     int tmpMax(0);
     int len = s.size();
@@ -22,7 +22,7 @@ TEST(string_test, lengthOfLongestSubstring){
     EXPECT_EQ(6,lengthOfLongestSubstring("asjrgapa"));
 }
 
-/* test 2 ******* 438.找到字符串中所有字母异位词 **********/
+/* 滑动窗口2 ******* 438.找到字符串中所有字母异位词 **********/
 //vector<int> findAnagrams(string s, string p) {  //自己想的，复杂度超了
 //    int sLen = s.size();
 //    int pLen = p.size();
