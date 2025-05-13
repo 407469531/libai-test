@@ -107,7 +107,7 @@ vector<vector<int>> threeSum(vector<int>& nums) {
     vector<vector<int>> ans;
 
     for(int first=0;first<n;++first){
-        if(first >0 && nums[first] == nums[first-1])
+        if(first > 0 && nums[first] == nums[first-1])
             continue;
         int target = -nums[first];
         int third = n-1;

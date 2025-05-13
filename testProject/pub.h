@@ -26,6 +26,7 @@
 #include <forward_list>
 #include <stack>
 #include <queue>
+#include <cmath>
 
 #include <gtest/gtest.h>
 using namespace std;
