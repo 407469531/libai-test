@@ -27,6 +27,7 @@
 #include <stack>
 #include <queue>
 #include <cmath>
+#include <limits.h>
 
 #include <gtest/gtest.h>
 using namespace std;

@@ -197,11 +197,11 @@ TEST(vector_test, subarraySum){
 vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     int n = nums.size();
     deque<int> q;
-    for(int i =0;i<k;++i){
-        while(!q.empty() && nums[i] > nums[q.back()] ){
+    for(int i = 0; i < k; ++i){
+        while(!q.empty() && nums[i] > nums[q.back()] ){ //新的大于已有的，就移除已有的
             q.pop_back();
         }
-        q.push_back(i);
+        q.push_back(i); //新的小于已有的，继续添加
     }
 
     vector<int> ans = {nums[q.front()]};
@@ -226,6 +226,53 @@ TEST(vector_test, maxSlidingWindow){
     vector<int> rightResult = {3,3,5,5,6,7};
     EXPECT_EQ(res , rightResult);
 }
+
+/* 子串3 ****************** 76.最小覆盖子串 ************* o(m+n) 时间内************/
+bool check(unordered_map<char,int> &cnt, unordered_map<char,int> &ori){
+    for(auto &p : ori){
+        if(p.second > cnt[p.first])
+            return false;
+    }
+    return true;
+}
+
+string minWindow(string s, string t) {
+    int sLen = s.size();
+    int tLen = t.size();
+    int len = INT_MAX;
+    int ansL = -1;
+    if(tLen > sLen)
+        return "";
+
+    unordered_map<char,int> ori,cnt;
+    for(auto &c: t)
+        ++ori[c];
+
+    int l=0,r=-1;
+    while(r<sLen){
+        int tmpr = ++r;
+        if(ori.find(s[tmpr]) != ori.end()){
+            ++cnt[s[r]];
+        }
+        while(check(cnt, ori) && l<=r){
+            if(r-l+1 < len){
+                len = r-l+1;
+                ansL = l;
+            }
+            if(ori.find(s[l]) != ori.end()){
+                --cnt[s[l]];
+            }
+            ++l;
+        }
+    }
+    return ansL == -1 ? "" : s.substr(ansL,len);
+}
+TEST(vector_test, minWindow){
+    string s = "ADOBECODEBANC", t = "ABC";
+    string rightResult = "BANC";
+    EXPECT_EQ(minWindow(s, t) , rightResult);
+}
+
 
 
 
