@@ -227,52 +227,21 @@ TEST(vector_test, maxSlidingWindow){
     EXPECT_EQ(res , rightResult);
 }
 
-/* 子串3 ****************** 76.最小覆盖子串 ************* o(m+n) 时间内************/
-bool check(unordered_map<char,int> &cnt, unordered_map<char,int> &ori){
-    for(auto &p : ori){
-        if(p.second > cnt[p.first])
-            return false;
+/* 普通数组1 ****************** 53.最大子数组和 *************************/
+// 给你一个整数数组nums，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+int maxSubArray(vector<int>& nums) {
+    int pre(0);
+    int ans = nums[0];
+    for(auto &n : nums){
+        pre = max(n,n+pre);
+        ans = max(pre, ans);
     }
-    return true;
+    return ans;
 }
-
-string minWindow(string s, string t) {
-    int sLen = s.size();
-    int tLen = t.size();
-    int len = INT_MAX;
-    int ansL = -1;
-    if(tLen > sLen)
-        return "";
-
-    unordered_map<char,int> ori,cnt;
-    for(auto &c: t)
-        ++ori[c];
-
-    int l=0,r=-1;
-    while(r<sLen){
-        int tmpr = ++r;
-        if(ori.find(s[tmpr]) != ori.end()){
-            ++cnt[s[r]];
-        }
-        while(check(cnt, ori) && l<=r){
-            if(r-l+1 < len){
-                len = r-l+1;
-                ansL = l;
-            }
-            if(ori.find(s[l]) != ori.end()){
-                --cnt[s[l]];
-            }
-            ++l;
-        }
-    }
-    return ansL == -1 ? "" : s.substr(ansL,len);
+TEST(vector_test, maxSubArray){
+    vector<int> vec={-2,1,-3,4,-1,2,1,-5,4};
+    EXPECT_EQ(maxSubArray(vec) , 6);
 }
-TEST(vector_test, minWindow){
-    string s = "ADOBECODEBANC", t = "ABC";
-    string rightResult = "BANC";
-    EXPECT_EQ(minWindow(s, t) , rightResult);
-}
-
 
 
 
