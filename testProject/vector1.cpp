@@ -242,8 +242,30 @@ TEST(vector_test, maxSubArray){
     vector<int> vec={-2,1,-3,4,-1,2,1,-5,4};
     EXPECT_EQ(maxSubArray(vec) , 6);
 }
+/* 普通数组2 ****************** 56.合并区间 *************************/
+vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    int size = intervals.size();
+    if(size == 0){
+        return {};
+    }
+    sort(intervals.begin(),intervals.end());
 
-
-
+    vector<vector<int>> res;
+    res.push_back(intervals[0]);
+    for(int i = 1; i < size; ++i){
+        int L = intervals[i][0], R = intervals[i][1];
+        if(res.back()[1] >= L){
+            res.back()[1] = max(R, res.back()[1]);
+        }else {
+            res.push_back(intervals[i]);
+        }
+    }
+    return res;
+}
+TEST(vector_test, merge){
+    vector<vector<int>> vec={{1,3},{2,6},{8,10},{15,18}};
+    vector<vector<int>> rightResult={{1,6},{8,10},{15,18}};
+    EXPECT_EQ(merge(vec) , rightResult);
+}
 
 
