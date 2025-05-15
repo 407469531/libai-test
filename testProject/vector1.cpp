@@ -267,5 +267,31 @@ TEST(vector_test, merge){
     vector<vector<int>> rightResult={{1,6},{8,10},{15,18}};
     EXPECT_EQ(merge(vec) , rightResult);
 }
+/* 普通数组5 ****************** 41.缺失的第一个正数 *************************/
+//给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
+//请你实现时间复杂度为 O(n) 并且只使用常数级别额外空间的解决方案。
+int firstMissingPositive(vector<int>& nums) {
+    int size = nums.size();
+    for(int i = 0; i<size; ++i){
+        while( (nums[i]>0)&& (nums[i] < size) && (nums[nums[i]-1] != nums[i]) ){
+            swap(nums[i], nums[nums[i]-1]);
+        }
+    }
+    for(int i=0; i<size; ++i){
+        if(i != nums[i]-1){
+            return i+1;
+        }
+    }
+    return size+1;
+}
+TEST(vector_test, firstMissingPositive){
+    vector<int> vec={3,2,-1,1};
+    EXPECT_EQ(firstMissingPositive(vec) , 4);
+    vector<int> vec1={3,4,-1,1};
+    EXPECT_EQ(firstMissingPositive(vec1) , 2);
+    vector<int> vec2={1,2,6,3,5,4};
+    EXPECT_EQ(firstMissingPositive(vec2) , 7);
+
+}
 
 
