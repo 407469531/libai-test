@@ -10,7 +10,9 @@ list<int> toList(ListNode* res){
 }
 // 创建链表
 ListNode* createList(vector<int> vals){
-    ListNode* node1 = new ListNode(1);
+    if(vals.empty())
+        return nullptr;
+    ListNode* node1 = new ListNode(vals[0]);
     ListNode* p = node1;
 
     ListNode* tmp = node1;
@@ -31,8 +33,60 @@ void deleteList(ListNode* head){
         delete tmp;
     }
 }
+void connectLists(ListNode *listA, ListNode *listB, ListNode *intersect) {
+    ListNode *current = listA;
+    while (current->next) {
+        current = current->next;
+    }
+    current->next = intersect;
 
-/* test 1 ******************** 206.反转链表***************/
+    current = listB;
+    while (current->next) {
+        current = current->next;
+    }
+    current->next = intersect;
+}
+/* 链表1 ****************** 160.相交链表 *************************/
+ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+    if (headA == nullptr || headB == nullptr) {
+        return nullptr;
+    }
+    ListNode *pA = headA, *pB = headB;
+    while (pA != pB) {
+        pA = pA == nullptr ? headB : pA->next;
+        pB = pB == nullptr ? headA : pB->next;
+    }
+    return pA;
+}
+
+TEST(list_test, getIntersectionNode){
+    vector<int> vals1={9,5};
+    ListNode* node1 = createList(vals1);
+    vector<int> vals2={7,8};
+    ListNode* node2 = createList(vals2);
+    vector<int> vals3={1,2,3};
+    ListNode* intersect = createList(vals3);
+    connectLists(node1, node2, intersect);
+
+    ListNode*  res = getIntersectionNode(node1,node2);
+    list<int> tmp = toList(res);
+    list<int> rightResult = {1,2,3};
+    EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
+
+    ListNode *temp = node1;
+    while (temp->next != intersect) temp = temp->next;
+    temp->next = nullptr;
+
+    temp = node2;
+    while (temp->next != intersect) temp = temp->next;
+    temp->next = nullptr;
+
+    deleteList(intersect);
+    deleteList(node1);
+    deleteList(node2);
+}
+
+/* 链表2 ****************** 206.反转链表 *************************/
 ListNode* reverseList(ListNode* head) {
     ListNode* newlist = NULL;
     while(head){
@@ -43,7 +97,7 @@ ListNode* reverseList(ListNode* head) {
     }
     return newlist;
 }
-TEST(list_test, test1_reverseList){
+TEST(list_test, reverseList){
     vector<int> vals={1,2,3,4,5};
     ListNode* node = createList(vals);
 
@@ -56,7 +110,7 @@ TEST(list_test, test1_reverseList){
     EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
     deleteList(res);
 }
-/* test 2 ******************** 234.回文链表 ***************/
+/* 链表3 ******************** 234.回文链表 ***************/
 ListNode* endOfFirstHalf(ListNode* head) {
     ListNode* fast = head;
     ListNode* slow = head;
