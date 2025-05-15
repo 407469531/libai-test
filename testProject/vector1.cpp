@@ -293,5 +293,38 @@ TEST(vector_test, firstMissingPositive){
     EXPECT_EQ(firstMissingPositive(vec2) , 7);
 
 }
+/* 矩阵1 ****************** 73.矩阵置零 *************************/
+void setZeroes(vector<vector<int>>& matrix) {
+    vector<int> xZeros;
+    vector<int> yZeros;
+    int ySize = matrix.size();
+    int xSize = matrix[0].size();
+    for(int y=0; y<ySize; ++y){
+        for(int x=0; x<xSize; ++x){
+            if(matrix[y][x] == 0){
+                yZeros.push_back(y);
+                xZeros.push_back(x);
+            }
+        }
+    }
+    for(int y=0; y<ySize; ++y){
+        if(yZeros.end() != std::find(yZeros.begin(),yZeros.end(),y)){
+            for(int x=0; x<xSize; ++x){
+                matrix[y][x] = 0;
+            }
+        }else{
+            for(int x=0; x<xSize; ++x){
+                if(xZeros.end() != std::find(xZeros.begin(),xZeros.end(),x)){
+                    matrix[y][x] = 0;
+                }
+            }
+        }
+    }
+}
+TEST(vector_test, setZeroes){
+    vector<vector<int>> vec{{1,1,1},{1,0,1},{1,1,1}};
+    vector<vector<int>> rightResult={{1,0,1},{0,0,0},{1,0,1}};
+    setZeroes(vec);
+    EXPECT_EQ(vec , rightResult);
 
-
+}
