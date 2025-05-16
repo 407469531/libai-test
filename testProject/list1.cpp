@@ -8,10 +8,9 @@ list<int> toList(ListNode* res){
     }
     return tmp;
 }
-// 创建链表
-ListNode* createList(vector<int> vals){
-    if(vals.empty())
-        return nullptr;
+// 构造单链表
+ListNode* createList(const vector<int>& vals){
+    if(vals.empty()) return nullptr;
     ListNode* node1 = new ListNode(vals[0]);
     ListNode* p = node1;
 
@@ -24,7 +23,7 @@ ListNode* createList(vector<int> vals){
     }
     return p;
 }
-// 释放链表
+// 释放单链表
 void deleteList(ListNode* head){
     ListNode* tmp;
     while(head){
@@ -33,6 +32,48 @@ void deleteList(ListNode* head){
         delete tmp;
     }
 }
+// 构造环形链表
+ListNode* createCircularList(const vector<int>& vals, int pos){
+    if(vals.empty()) return nullptr;
+    ListNode* head = new ListNode(vals[0]);
+    ListNode* tail = head;
+    ListNode* cycleEntry = (pos == 0) ? head : nullptr;
+    int size = vals.size();
+    for(int i = 1; i<size; ++i){
+        tail->next = new ListNode(vals[i]);
+        tail = tail->next;
+        if(pos == i)
+            cycleEntry = tail;
+    }
+    if(cycleEntry)
+        tail->next = cycleEntry;
+    return head;
+}
+// 释放环形链表
+void deleteCircularList(ListNode* head){
+    if(!head) return;
+    ListNode* slow = head;
+    ListNode* fast = head;
+    bool isCircular = false;
+    while(fast && fast->next){
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow == fast){
+            isCircular = true;
+            break;
+        }
+    }
+    if(isCircular){
+        slow = head;
+        while(slow->next != fast->next){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        fast->next = nullptr;
+    }
+    deleteList(head);
+}
+
 void connectLists(ListNode *listA, ListNode *listB, ListNode *intersect) {
     ListNode *current = listA;
     while (current->next) {
@@ -145,13 +186,30 @@ bool isPalindrome(ListNode* head) {
     firstHalfEnd->next = reverseList(sencondHalfStart);
     return res;
 }
-TEST(list_test, test2_isPalindrome){
+TEST(list_test, isPalindrome){
     vector<int> vals={1,2,3,2,1};
     ListNode* node = createList(vals);
 
     pList(node,"isPalindrome input");
     EXPECT_EQ(isPalindrome(node), true);
     deleteList(node);
+}
+/* 链表4 ********** 141.环形链表*********/
+bool hasCycle(ListNode *head) {
+    ListNode* fast = head;
+    ListNode* slow = head;
+    while(fast && fast->next){
+        fast = fast->next->next;
+        slow = slow->next;
+        if(slow == fast)
+            return true;
+    }
+    return false;
+}
+TEST(list_test, hasCycle){
+    ListNode* node = createCircularList({1, 2, 3, 4, 5}, 2);
+    EXPECT_EQ(hasCycle(node), true);
+    deleteCircularList(node);
 }
 /* test 3 ********** 83.删除排序链表中的重复元素1 *********/
 // {1,1,2,3} -> {1,2,3}

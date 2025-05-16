@@ -170,11 +170,10 @@ TEST(vector_test, trap){
 int maxProfit(vector<int>& prices) {
     if(prices.empty())
         return 0;
-
     int minPrice = prices[0];
     int maxMoney = 0;
-
-    for(int i=0; i<prices.size(); ++i){
+    int size = prices.size();
+    for(int i=0; i<size; ++i){
         if(prices[i]<minPrice)
             minPrice = prices[i];
         maxMoney = max(maxMoney, prices[i] - minPrice);
