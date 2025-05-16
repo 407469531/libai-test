@@ -211,7 +211,79 @@ TEST(list_test, hasCycle){
     EXPECT_EQ(hasCycle(node), true);
     deleteCircularList(node);
 }
-/* test 3 ********** 83.删除排序链表中的重复元素1 *********/
+/* 链表7 ********** 2.两数相加*********/
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    int len1(0);
+    int len2(0);
+    ListNode* tmp1 = l1;
+    ListNode* tmp2 = l2;
+
+    while(tmp1->next){
+        len1++;
+        tmp1 = tmp1->next;
+    }
+    while(tmp2->next){
+        len2++;
+        tmp2 = tmp2->next;
+    }
+
+    if(len1 > len2){
+        for(int i=0;i<len1-len2;++i){
+            tmp2->next = new ListNode(0);
+            tmp2=tmp2->next;
+        }
+    } else{
+        for(int i=0;i<len2-len1;++i){
+            tmp1->next = new ListNode(0);
+            tmp1=tmp1->next;
+        }
+    }
+    ListNode* res = new ListNode(-1);
+    ListNode* tmp = res;
+    bool extent(false);
+    while(l1 || l2){
+        int val = extent ? (l1->val + l2->val + 1) : (l1->val + l2->val);
+        tmp->next = new ListNode(val%10);
+        tmp = tmp->next;
+        l1 = l1->next;
+        l2 = l2->next;
+        extent = (val>9) ? true : false;
+    }
+    if(extent) {
+        tmp->next=new ListNode(1);
+        tmp=tmp->next;
+    }
+    return res->next;
+}
+TEST(list_test, addTwoNumbers){
+    {
+        vector<int> vals1={2,4,3};
+        ListNode* node1 = createList(vals1);
+        vector<int> vals2={5,6,4};
+        ListNode* node2 = createList(vals2);
+
+        ListNode* res = addTwoNumbers(node1, node2);
+        list<int> tmp = toList(res);
+        list<int> rightResult = {7,0,8};
+        EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
+        deleteList(node1);
+        deleteList(node2);
+    }
+    {
+        vector<int> vals1={9,9,9,9,9,9,9};
+        ListNode* node1 = createList(vals1);
+        vector<int> vals2={9,9,9,9};
+        ListNode* node2 = createList(vals2);
+
+        ListNode* res = addTwoNumbers(node1, node2);
+        list<int> tmp = toList(res);
+        list<int> rightResult = {8,9,9,9,0,0,0,1};
+        EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
+        deleteList(node1);
+        deleteList(node2);
+    }
+}
+/*  ********** 83.删除排序链表中的重复元素1 *********/
 // {1,1,2,3} -> {1,2,3}
 ListNode* deleteDuplicates1(ListNode* head) {
     ListNode* cur = head;
@@ -226,7 +298,7 @@ ListNode* deleteDuplicates1(ListNode* head) {
     }
     return head;
 }
-TEST(list_test, test3_deleteDuplicates1){
+TEST(list_test, deleteDuplicates1){
    vector<int> vals={1,1,2,3,4};
    ListNode* node = createList(vals);
 
@@ -239,7 +311,7 @@ TEST(list_test, test3_deleteDuplicates1){
     EXPECT_TRUE(std::equal(tmp.begin(),tmp.end(),rightResult.begin()));
     deleteList(res);
 }
-/* test 4 ********** 82.删除排序链表中的重复元素2 *********/
+/*  ********** 82.删除排序链表中的重复元素2 *********/
 // {1,1,2,3} -> {2,3}
 ListNode* deleteDuplicates2(ListNode* head) {
     ListNode dummy = ListNode(0,head);
@@ -257,7 +329,7 @@ ListNode* deleteDuplicates2(ListNode* head) {
     }
     return dummy.next;
 }
-TEST(list_test, test4_deleteDuplicates2){
+TEST(list_test, deleteDuplicates2){
     vector<int> vals={1,1,2,3,4};
     ListNode* node = createList(vals);
 
