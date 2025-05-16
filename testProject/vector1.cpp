@@ -166,6 +166,26 @@ TEST(vector_test, trap){
     vector<int> vec={0,1,0,2,1,0,1,3,2,1,2,1};
     EXPECT_EQ(trap(vec), 6);
 }
+/*  ****************** 121. 买卖股票的最佳时机 *************************/
+int maxProfit(vector<int>& prices) {
+    if(prices.empty())
+        return 0;
+
+    int minPrice = prices[0];
+    int maxMoney = 0;
+
+    for(int i=0; i<prices.size(); ++i){
+        if(prices[i]<minPrice)
+            minPrice = prices[i];
+        maxMoney = max(maxMoney, prices[i] - minPrice);
+    }
+    return maxMoney;
+}
+TEST(vector_test, maxProfit){
+    vector<int> vec={7,1,5,3,6,4};
+    EXPECT_EQ(maxProfit(vec), 5);
+}
+
 /* 子串1 ****************** 560.和为k的子数组 *************************/
 // 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
 // 子数组是数组中元素的连续非空序列。

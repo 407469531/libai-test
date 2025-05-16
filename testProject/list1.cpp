@@ -47,6 +47,7 @@ void connectLists(ListNode *listA, ListNode *listB, ListNode *intersect) {
     current->next = intersect;
 }
 /* 链表1 ****************** 160.相交链表 *************************/
+//思路：(a+c)+(b+c) == (b+c)+(a+c)
 ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
     if (headA == nullptr || headB == nullptr) {
         return nullptr;
@@ -60,7 +61,7 @@ ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
 }
 
 TEST(list_test, getIntersectionNode){
-    vector<int> vals1={9,5};
+    vector<int> vals1={9,5,2};
     ListNode* node1 = createList(vals1);
     vector<int> vals2={7,8};
     ListNode* node2 = createList(vals2);
@@ -111,6 +112,7 @@ TEST(list_test, reverseList){
     deleteList(res);
 }
 /* 链表3 ******************** 234.回文链表 ***************/
+// 思路：快慢指针方法，找到前半部分链表的尾节点。将后半部分链表反转。判断是否是回文。恢复链表。
 ListNode* endOfFirstHalf(ListNode* head) {
     ListNode* fast = head;
     ListNode* slow = head;
