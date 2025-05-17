@@ -1,6 +1,7 @@
 #include "pub.h"
 
 /* 滑动窗口1 ******* 3.无重复字符的最长子串长度 **********/
+//思路:通过把不重复的字符插入到unordered_set中，再判断新插入的字符是否在set中，从而决定插入还是移除最前面的字符
 int lengthOfLongestSubstring(string s) {
     int tmpMax(0);
     int len = s.size();
@@ -17,33 +18,16 @@ int lengthOfLongestSubstring(string s) {
     }
     return tmpMax;
 }
-
 TEST(string_test, lengthOfLongestSubstring){
     EXPECT_EQ(6,lengthOfLongestSubstring("asjrgapa"));
 }
-
 /* 滑动窗口2 ******* 438.找到字符串中所有字母异位词 **********/
-//vector<int> findAnagrams(string s, string p) {  //自己想的，复杂度超了
-//    int sLen = s.size();
-//    int pLen = p.size();
-//    vector<int> res;
-//    sort(p.begin(), p.end());
-//    for(int i = 0; i<=sLen - pLen;++i){
-//        if(p.find(s[i]) == string::npos)
-//            continue;
-//        string tmp = s.substr(i,pLen);
-//        sort(tmp.begin(),tmp.end());
-//        if(p == tmp)
-//            res.push_back(i);
-//    }
-//    return res;
-//}
+//思路:通过比较两个vector，添加条件是：长度相同，vector相同。left是在长度相同时更新，right是每次遍历
 vector<int> findAnagrams(string s, string p) {
     int sLen = s.size();
     int pLen = p.size();
-    if(pLen > sLen){
+    if(pLen > sLen)
         return {};
-    }
     vector<int> sCount(26);
     vector<int> pCount(26);
     for(auto & tmp : p){
@@ -62,7 +46,6 @@ vector<int> findAnagrams(string s, string p) {
     }
     return res;
 }
-
 TEST(string_test, findAnagrams){
     string s = "cbaebabacd", p = "abc";
     vector<int> rightResult = {0,6};
@@ -77,6 +60,7 @@ TEST(string_test, findAnagrams){
     EXPECT_EQ(findAnagrams(s2,p2) , rightResult2);
 }
 /* 子串3 ****************** 76.最小覆盖子串 ************* o(m+n) 时间内************/
+//
 bool check(unordered_map<char,int> &cnt, unordered_map<char,int> &ori){
     for(auto &p : ori){
         if(p.second > cnt[p.first])
@@ -84,7 +68,6 @@ bool check(unordered_map<char,int> &cnt, unordered_map<char,int> &ori){
     }
     return true;
 }
-
 string minWindow(string s, string t) {
     int sLen = s.size();
     int tLen = t.size();

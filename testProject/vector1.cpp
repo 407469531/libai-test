@@ -1,6 +1,7 @@
 #include "pub.h"
 
 /* 哈希1 ****************** 1.两数之和 *************************/
+//思路:借助unordered_map，把值作为key，index作为value，存到unordered_map中。
 vector<int> twoSum(vector<int>& nums, int target) {
     unordered_map<int,int> value_key;
     int max = nums.size();
@@ -20,7 +21,8 @@ TEST(vector_test, twoSum){
 }
 
 /* 哈希2 ****************** 49.字母异位词分组 *************************/
-//给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
+//描述:给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
+//思路:借助unordered_map，对每一个字符串进行排序，将排序后的字符串作为key，排序前的字符串作为value，放到unordered_map中
 vector<vector<string>> groupAnagrams(vector<string>& strs) {
     unordered_map<string,vector<string>> mp;
     for(auto& str : strs){
@@ -41,7 +43,8 @@ TEST(vector_test, groupAnagrams){
     EXPECT_EQ(res, right);
 }
 /* 哈希3 ****************** 128.最长连续序列 *************************/
-//给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
+//描述:给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。要求时间复杂度为 O(n) 的算法
+//思路:先都添加到unordered_set中用于判断是否存在。只检测前驱不在set中的数
 int longestConsecutive(vector<int>& nums) {
     unordered_set<int> all;
     for(auto &n: nums){
@@ -66,7 +69,8 @@ TEST(vector_test, longestConsecutive){
     EXPECT_EQ(res, 4);
 }
 /* 双指针1 ****************** 283.移动零 *************************/
-//给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+//描述:给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+//思路:通过双指针，左指针代表非0的开始，右指针代表遍历到的当前位置
 void moveZeroes(vector<int>& nums) {
     int left(0);
     int right(0);
@@ -87,9 +91,9 @@ TEST(vector_test, moveZeroes){
     EXPECT_EQ(in , rightResult);
 }
 /* 双指针2 ****************** 11.盛最多水的容器 *************************/
-// 给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
-// 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
-// 返回容器可以储存的最大水量。
+//描述:给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
+//    找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。返回容器可以储存的最大水量。
+//思路:哪边小,哪边向里移动
 int maxArea(vector<int>& height) {
     int left(0);
     int right = height.size()-1;
@@ -111,8 +115,9 @@ TEST(vector_test, maxArea){
     EXPECT_EQ(res, 49);
 }
 /* 双指针3 ****************** 15.三树之和 *************************/
-// 判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，
-// 同时还满足 nums[i] + nums[j] + nums[k] == 0 。请你返回所有和为 0 且不重复的三元组。
+//描述:判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，
+//     同时还满足 nums[i] + nums[j] + nums[k] == 0 。请你返回所有和为 0 且不重复的三元组。
+//思路:先排序，再根据不能相等条件和步步逼近，判断是否符合条件
 vector<vector<int>> threeSum(vector<int>& nums) {
     int n = nums.size();
     std::sort(nums.begin(),nums.end());
@@ -143,10 +148,10 @@ TEST(vector_test, threeSum){
     EXPECT_EQ(res , rightResult);
 }
 /* 双指针4 ****************** 42.接雨水 *************************/
+//思路:哪边小,哪边向里移动,但左右两边要分别计算
 int trap(vector<int>& height) {
-    int len = height.size();
     int left(0);
-    int right = len-1;
+    int right = height.size()-1;
     int ans(0);
     int leftMax=0,rightMax=0;
     while(left < right){
@@ -167,6 +172,7 @@ TEST(vector_test, trap){
     EXPECT_EQ(trap(vec), 6);
 }
 /*  ****************** 121. 买卖股票的最佳时机 *************************/
+//思路：遍历判断是否更新最小值和计算利润
 int maxProfit(vector<int>& prices) {
     if(prices.empty())
         return 0;
@@ -186,8 +192,9 @@ TEST(vector_test, maxProfit){
 }
 
 /* 子串1 ****************** 560.和为k的子数组 *************************/
-// 给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
-// 子数组是数组中元素的连续非空序列。
+//描述:给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。
+//    子数组是数组中元素的连续非空序列。
+//思路:引入前缀和，只要pre[i]−pre[j−1]==k即可
 int subarraySum(vector<int>& nums, int k) {
     unordered_map<int, int> mp;
     mp[0] = 1;
@@ -211,8 +218,9 @@ TEST(vector_test, subarraySum){
     EXPECT_EQ(res2, 2);
 }
 /* 子串2 ****************** 239.滑动窗口最大值 *************************/
-// 给你一个整数数组nums，有一个大小为k的滑动窗口从数组的最左侧移动到数组的最右侧。
-// 你只可以看到在滑动窗口内的k个数字。滑动窗口每次只向右移动一位。返回滑动窗口中的最大值.
+//描述:给你一个整数数组nums，有一个大小为k的滑动窗口从数组的最左侧移动到数组的最右侧。
+//    你只可以看到在滑动窗口内的k个数字。滑动窗口每次只向右移动一位。返回滑动窗口中的最大值.
+//思路:创建deque，确保deque中第一个最大的，再确保第一个值在长度范围内
 vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     int n = nums.size();
     deque<int> q;
@@ -239,13 +247,13 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     return ans;
 }
 TEST(vector_test, maxSlidingWindow){
-    vector<int> vec={1,3,-1,-3,5,3,6,7};
+//    vector<int> vec={1,3,-1,-3,5,3,6,7};
+    vector<int> vec={3,2,1,2,3,-1,-3,5,3,6,7};
     vector<int> res = maxSlidingWindow(vec,3);
     pVector(res,"maxSlidingWindow");
     vector<int> rightResult = {3,3,5,5,6,7};
     EXPECT_EQ(res , rightResult);
 }
-
 /* 普通数组1 ****************** 53.最大子数组和 *************************/
 // 给你一个整数数组nums，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
 int maxSubArray(vector<int>& nums) {
