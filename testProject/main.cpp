@@ -11,6 +11,7 @@ void curtime(){
     char* currentTime = ctime(&now);
     std::cout << "当前时间为: " << currentTime;
 }
+
 int main(int argc, char **argv)
 {
     gtest(argc, argv);

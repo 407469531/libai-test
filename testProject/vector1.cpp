@@ -247,8 +247,7 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     return ans;
 }
 TEST(vector_test, maxSlidingWindow){
-//    vector<int> vec={1,3,-1,-3,5,3,6,7};
-    vector<int> vec={3,2,1,2,3,-1,-3,5,3,6,7};
+    vector<int> vec={1,3,-1,-3,5,3,6,7};
     vector<int> res = maxSlidingWindow(vec,3);
     pVector(res,"maxSlidingWindow");
     vector<int> rightResult = {3,3,5,5,6,7};

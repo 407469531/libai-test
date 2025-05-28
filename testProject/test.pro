@@ -19,13 +19,14 @@ CODENAME = $$system( cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d'=' -f
 
 INCLUDEPATH += ../gtest/include
 
-LIBS += -L../gtest/lib/$${CODENAME} -lgtest
+LIBS += -L../gtest/lib/$${CODENAME} -lgtest -ltbb
 
 SOURCES += \
         container.cpp \
         io.cpp \
         list1.cpp \
         main.cpp \
+        parallel.cpp \
         pub.cpp \
         sort1.cpp \
         string1.cpp \
