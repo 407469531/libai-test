@@ -49,10 +49,10 @@ TEST(io_test, test1){
 }
 /* test 2 ********** 测试大端数据转换 *********/
 namespace BIGENDIAN {
-int16_t getShort(unsigned char* data){
+int16_t getShort(uchar* data){
     return (data[0] << 8 | data[1]);
 }
-uint16_t getUShort(unsigned char* data) {
+uint16_t getUShort(uchar* data) {
     return (data[0] << 8 | data[1]);
 }
 int16_t getShort(char* data){
@@ -63,10 +63,10 @@ uint16_t getUShort(char* data) {
 }
 
 
-int32_t getInt(unsigned char* data){
+int32_t getInt(uchar* data){
     return (data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3]);
 }
-uint32_t getUInt(unsigned char* data){
+uint32_t getUInt(uchar* data){
     return (data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3]);
 }
 
@@ -82,7 +82,7 @@ int16_t getShort(int16_t data){
 
 
 TEST(io_test, test2){
-    unsigned char data1[] = {0xff,0xff};
+    uchar data1[] = {0xff,0xff};
     EXPECT_EQ(BIGENDIAN::getShort(data1), -1);
     EXPECT_EQ(BIGENDIAN::getUShort(data1), 65535);
     data1[0] = 0x00; data1[1] = 0x01;
@@ -107,7 +107,7 @@ TEST(io_test, test2){
     EXPECT_EQ(BIGENDIAN::getShort(data3), -1);
 
 
-    unsigned char data11[] = {0xff,0xff,0xff,0xff};
+    uchar data11[] = {0xff,0xff,0xff,0xff};
     EXPECT_EQ(BIGENDIAN::getInt(data11), -1);
     EXPECT_EQ(BIGENDIAN::getUInt(data11), 4294967295);
     data11[0] = 0x00; data11[1] = 0x00; data11[2] = 0x00; data11[3] = 0x01;
@@ -122,10 +122,10 @@ TEST(io_test, test2){
 
 /* test 3 ********** 测试小端数据转换 *********/
 namespace LITTLEENDIAN {
-int16_t getShort(unsigned char* data){
+int16_t getShort(uchar* data){
     return (data[1] << 8 | data[0]);
 }
-uint16_t getUShort(unsigned char* data) {
+uint16_t getUShort(uchar* data) {
     return (data[1] << 8 | data[0]);
 }
 int16_t getShort(char* data){
@@ -136,16 +136,16 @@ uint16_t getUShort(char* data) {
 }
 
 
-int32_t getInt(unsigned char* data){
+int32_t getInt(uchar* data){
     return (data[0] << 16 | data[1] << 24 | data[2] | data[3] << 8 );
 }
-uint32_t getUInt(unsigned char* data){
+uint32_t getUInt(uchar* data){
     return (data[0] << 16 | data[1] << 24 | data[2] | data[3]  << 8 );
 }
 };
 
 TEST(io_test, test3){
-    unsigned char data1[] = {0xff,0xff};
+    uchar data1[] = {0xff,0xff};
     EXPECT_EQ(LITTLEENDIAN::getShort(data1), -1);
     EXPECT_EQ(LITTLEENDIAN::getUShort(data1), 65535);
     data1[0] = 0x00; data1[1] = 0x01;
@@ -156,7 +156,7 @@ TEST(io_test, test3){
     EXPECT_EQ(LITTLEENDIAN::getUShort(data1), 65279);
 
 
-    unsigned char data11[] = {0xff,0xff,0xff,0xff};
+    uchar data11[] = {0xff,0xff,0xff,0xff};
     EXPECT_EQ(LITTLEENDIAN::getInt(data11), -1);
     EXPECT_EQ(LITTLEENDIAN::getUInt(data11), 4294967295);
 

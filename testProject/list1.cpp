@@ -32,6 +32,15 @@ void deleteList(ListNode* head){
         delete tmp;
     }
 }
+// 尾插
+void insertList(ListNode* head, int a){
+    ListNode* tmp = head;
+    while(tmp->next){
+        tmp = tmp->next;
+    }
+    tmp->next = new ListNode(a);
+}
+
 // 构造环形链表
 ListNode* createCircularList(const vector<int>& vals, int pos){
     if(vals.empty()) return nullptr;
@@ -73,7 +82,7 @@ void deleteCircularList(ListNode* head){
     }
     deleteList(head);
 }
-
+// 把intersect分别连接到listA和listB后面
 void connectLists(ListNode *listA, ListNode *listB, ListNode *intersect) {
     ListNode *current = listA;
     while (current->next) {

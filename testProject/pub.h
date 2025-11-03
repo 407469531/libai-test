@@ -32,6 +32,12 @@
 #include <gtest/gtest.h>
 using namespace std;
 
+using CStr   = const char*;
+using uchar  = unsigned char;
+using ushort = unsigned short;
+using uint   = unsigned int;
+using ulong  = unsigned long;
+
 struct ListNode {
     int val;
     ListNode *next;
@@ -55,7 +61,7 @@ void pVector(vector<int>& vs,string name="");
 void pList(ListNode* in,string name="");
 
 size_t getMemInUse();
-std::string memStr(size_t bytes);
+string memStr(size_t bytes);
 
 class MemStamp{
 protected:
