@@ -58,6 +58,7 @@ struct TreeNode {
 
 
 void pVector(vector<int>& vs,string name="");
+void pVectorMatrix(vector<vector<int>> adjMat);
 void pList(ListNode* in,string name="");
 
 size_t getMemInUse();

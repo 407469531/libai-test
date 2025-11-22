@@ -31,7 +31,12 @@ TEST(container_test, container_size)
     myStack.push(1);
     myStack.push(2);
     queue<int> myQueue;
+    myQueue.push(1);
+    myQueue.push(2);
     priority_queue<int> myPriorityQueue;
+    myPriorityQueue.push(1);
+    myPriorityQueue.push(2);
+    myPriorityQueue.push(3);
 
     cout<<"vector         size:"<<sizeof(v)<<endl;
     cout<<"array          size:"<<sizeof(a)<<endl;

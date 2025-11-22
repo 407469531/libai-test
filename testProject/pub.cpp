@@ -8,7 +8,15 @@ void pVector(vector<int>& vs,string name){
     printf("\n");
     fflush(stdout);
 }
-
+void pVectorMatrix(vector<vector<int>> matrix){
+    for(auto& a: matrix){
+        for(auto& b : a){
+            printf("%d ",b);
+        }
+        printf("\n");
+    }
+    fflush(stdout);
+}
 void pList(ListNode* in,string name){
     ListNode* tmp = in;
     printf("%s: ",name.c_str());

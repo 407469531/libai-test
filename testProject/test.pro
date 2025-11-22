@@ -23,6 +23,8 @@ LIBS += -L../gtest/lib/$${CODENAME} -lgtest -ltbb
 
 SOURCES += \
         container.cpp \
+        graphic.cpp \
+        hanota.cpp \
         io.cpp \
         list1.cpp \
         main.cpp \
