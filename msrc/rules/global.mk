@@ -24,6 +24,7 @@ SRCPATH = $(CURDIR)/..
 # READLINEDIR         := $(CENTRAL)/readline/6.2.0
 # READLINEINC         := -I$(READLINEDIR)/include
 # READLINELIBS        := -L$(READLINEDIR)/lib -Wl,-Bstatic -lreadline -lhistory -Wl,-Bdynamic -Wl,-rpath=$(READLINEDIR)/lib
+
 # # Boost
 # BOOSTDIR            := $(CENTRAL)/boost/1.78.0
 # BOOSTINCLUDES       := -I$(BOOSTDIR)/include/boost -I$(BOOSTDIR)/include
@@ -33,6 +34,7 @@ SRCPATH = $(CURDIR)/..
 # # qt qwt
 # QTDIR               := $(CENTRAL)/qt/5.6.3/5.6.3/gcc_64
 # QWTDIR              := $(CENTRAL)/qt/5.6.3/qwt/6.2.0
+
 # # zlib
 # ZDIR                := $(CENTRAL)/zlib/1.3.1
 
@@ -96,8 +98,6 @@ PRESWIG				:= $(CENTRAL)/preSwig
 DOXYGEN             := doxygen
 LDD                 := ldd
 XARGS               := xargs
-BISON               := bison
-FLEX                := flex
 
 #
 # include and library
@@ -116,7 +116,6 @@ BASE_PKGS		+= gp
 
 # will convert to scripting db, BASE_PKGS and DB_PKGS are require for every product
 DB_PKGS			= db bp ds df dm du rb fb ut mm
-TCC_PKGS        = lm opc tcc
 
 # minimum pkgs lib link
 CLIENT_PKGS     = $(DB_PKGS) pe gp pd pl io nb bp dr xo
