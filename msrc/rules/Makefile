@@ -8,9 +8,6 @@ APIROOT			:= $(BUILDROOT)/../release_smdb
 
 LIBAPI			:= $(APIROOT)
 
-BVERSION        := $(shell svn info|awk 'NR==7{print $$2}')
-BYEAR			:= $(shell svn info | awk 'NR==12{for(i=1;i<=NF;i++){if($$i~/[0-9]+/){print $$i; break;}}}'|awk -F "-" '{print $$1}')
-
 OBJDIR			:= $(BUILDROOT)/pkg/$(PKG)
 PUBLISHINCLUDE	:= -I$(BUILDROOT)/include
 
@@ -67,13 +64,11 @@ endif
 
 START_TIME := $(shell cat /proc/uptime | awk -F "." '{print $$1}')
 
-#
 # general rules
-#
 $(OBJDIR)/%.o: %.cc
 	echo "  -->$(notdir $(CC)) $(OPTFLAG) $<"
 	$(CC) -c $(OPTFLAG) $(CCFLAGS) $(PUBLISHINCLUDE) $(LIBINCLUDES) \
-	-DBUILDVERSION=$(BVERSION) -DBUILDYEAR=\"$(BYEAR)\" -DBUILDARCH=\"$(CODENAME)\" -o $@ $<
+	-DBUILDARCH=\"$(CODENAME)\" -o $@ $<
 
 $(OBJDIR)/moc_%.o: $(OBJDIR)/moc_%.cc
 	echo "  -->$(notdir $(CC)) $(OPTFLAG) $<"
@@ -83,39 +78,6 @@ $(OBJDIR)/moc_%.cc: %.h
 	echo "  -->moc $<"
 	$(MOC) -o $@ $<
 
-# for lax and yacc
-$(OBJDIR)/yacc_%.o: yacc_%.cc
-	echo "  -->$(notdir $(CC)) $(OPTFLAG) $<"
-	$(CC) -c $(OPTFLAG)  $(CCFLAGS) $(PUBLISHINCLUDE) $(LIBINCLUDES) -o $@ $<
-	$(RM) -f $<
-
-$(OBJDIR)/lex_%.o: lex_%.cc
-	echo "  -->$(notdir $(CC)) $(OPTFLAG) $<"
-	$(CC) -c $(OPTFLAG)  $(CCFLAGS) $(PUBLISHINCLUDE) $(LIBINCLUDES) -o $@ $<
-	$(RM) -f $*Token.h
-	$(RM) -f $<
-
-$(OBJDIR)/gperf_%.o: gperf_%.cc
-	echo "  -->$(notdir $(CC)) $(OPTFLAG) $<"
-	$(CC) -c $(OPTFLAG)  $(CCFLAGS) $(PUBLISHINCLUDE) $(LIBINCLUDES) -o $@ $<
-	$(RM) -f $<
-
-yacc_%.cc %Token.h : %.y
-	echo "  -->bison $<"
-	$(BISON) --defines=$*Token.h -o yacc_$*.cc $< -Wnone
-
-lex_%.cc: %.l %Token.h
-	echo "  -->flex $<"
-	$(FLEX) -s -o $@ $*.l
-
-lex_%.cc: %.l
-	echo "  -->flex $<"
-	$(FLEX) -s -o $@ $*.l
-
-gperf_%.cc: %.gperf
-	echo "  -->gperf $<"
-	$(GPERF) -C -L C++ -N gperf_keyword_lookup -t --ignore-case $*.gperf > gperf_$*.cc
-	
 all: optimize compile_time
 
 help:
@@ -170,13 +132,7 @@ build_symbolic_obj: publish
 		$(LN) -s $(BUILDROOT)/pkg/$(PKG) obj; \
 	fi
 
-ifeq ("$(OSVERSION)", "6.10")
-depends: build_symbolic_obj
-	$(CC) -MM -I. $(OLDGCCINCLUDE) -I$(BUILDROOT)/include $(CCFILES) -std=c++11 | sed 's%\(.*\.o\:\)%$(OBJDIR)\/\1%' > $(OBJDIR)/depends
-
-minimaldepends: build_symbolic_obj
-	$(CC) -D__MINIMAL__ -MM -I. $(OLDGCCINCLUDE) -I$(BUILDROOT)/include $(CCFILES) -std=c++11 | sed 's%\(.*\.o\:\)%$(OBJDIR)\/\1%' > $(OBJDIR)/depends
-else # centos7.9 redhat7.4 redhat8.9 ubuntu22.04 ubuntu20.04
+# centos7.9 redhat7.4 redhat8.9 ubuntu22.04 ubuntu20.04
 # need to perform every time
 # Step1: Check the .cc is not newer than its depends file.
 # Step2: Check the existing depends headers' date is not newer than depends file
@@ -203,27 +159,7 @@ depends: build_symbolic_obj
 		cat $(OBJDIR)/depends.$${CCFILE} >> $(OBJDIR)/depends;\
 	done;
 
-minimaldepends: build_symbolic_obj
-	rm -f $(OBJDIR)/depends;
-	for CCFILE in $(CCFILES); do\
-		if [ $${CCFILE} -nt $(OBJDIR)/depends.$${CCFILE} ] || [ ! -f $(OBJDIR)/depends.$${CCFILE}  ]; then\
-			echo "  -->g++ -MM $${CCFILE}";\
-			$(CC) -D__MINIMAL__ -MM -I. $(OLDGCCINCLUDE) -I$(BUILDROOT)/include $$CCFILE -std=c++11 | sed 's%\(.*\.o\:\)%$(OBJDIR)\/\1%' > $(OBJDIR)/depends.$${CCFILE}&\
-		else\
-			for l in $$(cat $(OBJDIR)/depends.$${CCFILE}); do\
-				if [ -f $$l ] && [ $$l -nt $(OBJDIR)/depends.$${CCFILE} ]; then\
-					echo "  -->g++ -MM $${CCFILE} ($$l update)";\
-						$(CC) -D__MINIMAL__ -MM -I. $(OLDGCCINCLUDE) -I$(BUILDROOT)/include $$CCFILE -std=c++11 | sed 's%\(.*\.o\:\)%$(OBJDIR)\/\1%' > $(OBJDIR)/depends.$${CCFILE}&\
-					break;\
-				fi;\
-			done\
-		fi;\
-	done;\
-	wait;\
-	for CCFILE in $(CCFILES); do\
-		cat $(OBJDIR)/depends.$${CCFILE} >> $(OBJDIR)/depends;\
-	done;
-endif
+
 optimize: depends
 	$(MAKE) $(PKG_LVL_JOBS) OPTFLAG="-O3 -DNDEBUG" $(LIBTARGET)
 	$(MAKE) $(SWIGTARGET)
@@ -280,10 +216,6 @@ deep_clean:
 	$(RM) -f $(OBJDIR)/*
 	$(RM) -f $(LIBTARGET)
 	$(RM) -f $(BUILDROOT)/include/lib$(PKG)_*.h
-
-minimal: minimaldepends
-	$(MAKE) $(PKG_LVL_JOBS) OPTFLAG="-O3 -DNDEBUG -D__MINIMAL__" $(LIBTARGET)
-	$(MAKE) $(SWIGTARGET)
 
 # This must be the last line!!
 sinclude $(OBJDIR)/depends
