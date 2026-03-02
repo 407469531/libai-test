@@ -1,5 +1,5 @@
 # top level, both package and app
-.SILENT:
+# .SILENT:
 
 include rules/global.mk
 
@@ -8,7 +8,7 @@ BUILDROOT		:= $(OUTPATH1)/build
 OSVERSION       := $(shell lsb_release -rs  | awk -F'[.]' '{print $$1"."$$2}')
 
 # generate app
-APPS			:= $(addprefix app/, Editor)
+APPS			:= $(addprefix app/, app1)
 
 START_TIME := $(shell cat /proc/uptime | awk -F "." '{print $$1}')
 
@@ -34,7 +34,7 @@ compile_time:
 
 clean:
 	echo "  -->remove build and release directory"
-	$(RM) -rf $(OUTPATH1)/release_* $(OUTPATH1)/build
+	$(RM) -rf $(OUTPATH1)/release $(OUTPATH1)/build
 	$(RM) -f pkg/*/obj app/*/obj
 	$(FIND) pkg/* -type d -empty -delete
 

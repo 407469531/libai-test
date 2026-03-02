@@ -4,9 +4,6 @@
 include ../../rules/global.mk
 PKG				:= $(notdir $(basename $(shell pwd)))
 BUILDROOT		:= $(OUTPATH3)/build
-APIROOT			:= $(BUILDROOT)/../release_smdb
-
-LIBAPI			:= $(APIROOT)
 
 OBJDIR			:= $(BUILDROOT)/pkg/$(PKG)
 PUBLISHINCLUDE	:= -I$(BUILDROOT)/include
@@ -44,11 +41,6 @@ NEEDDIRS		:= $(shell $(MKDIR) -p $(BUILDROOT)/include $(BUILDROOT)/lib $(OBJDIR)
 LIBTARGET		:= $(BUILDROOT)/lib/lib$(PKG).a
 SWIGTARGET		:= $(BUILDROOT)/swig/$(PKG).i 
 TMTARGETS		:= $(addprefix $(BUILDROOT)/swig/, $(TMFILES))
-
-# for release smdb
-APITARGET		:= $(LIBAPI)/lib/lib$(PKG).a
-APIPUBTARGETS	:= $(addprefix $(APIROOT)/include/, $(PUBLICHEADERS))
-# SAMPLETARGETS	:= $(addprefix $(APIROOT)/sample/, $(SAMPLEFILES))
 
 # publis target
 PUBLISHTARGETS	:= $(addprefix $(BUILDROOT)/include/, $(PUBLICHEADERS))
@@ -104,16 +96,6 @@ $(BUILDROOT)/include/%.h: %.h
 $(BUILDROOT)/swig/%.tm: %.tm
 	echo "  -->publish $<"
 	$(CP) -f $< $@
-
-ifeq ("$(OSVERSION)", "7.9")
-$(APIROOT)/include/%.h: %.h
-	echo "  -->publish $<"
-	$(CP) -f $< $@
-
-$(APIROOT)/sample/%.cc: %.cc
-	echo "  -->publish $<"
-	$(CP) -f $< $@
-endif
 
 clean_previous_publish:
 	for file in $(notdir $(wildcard $(BUILDROOT)/include/lib$(PKG)_*.h)); do \

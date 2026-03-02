@@ -1,5 +1,5 @@
 # Makefile
-.SILENT:
+# .SILENT:
 
 include ../rules/global.mk
 

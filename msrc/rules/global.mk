@@ -25,12 +25,6 @@ SRCPATH = $(CURDIR)/..
 # READLINEINC         := -I$(READLINEDIR)/include
 # READLINELIBS        := -L$(READLINEDIR)/lib -Wl,-Bstatic -lreadline -lhistory -Wl,-Bdynamic -Wl,-rpath=$(READLINEDIR)/lib
 
-# # Boost
-# BOOSTDIR            := $(CENTRAL)/boost/1.78.0
-# BOOSTINCLUDES       := -I$(BOOSTDIR)/include/boost -I$(BOOSTDIR)/include
-# BOOSTLIBS			:= -L$(BOOSTDIR)/lib -Wl,-Bstatic -lboost_system -lboost_thread -lboost_iostreams \
-#                         -lboost_filesystem -lboost_json -lboost_program_options -Wl,-Bdynamic -Wl,-rpath=$(BOOSTDIR)/lib
-
 # # qt qwt
 # QTDIR               := $(CENTRAL)/qt/5.6.3/5.6.3/gcc_64
 # QWTDIR              := $(CENTRAL)/qt/5.6.3/qwt/6.2.0
@@ -41,16 +35,16 @@ SRCPATH = $(CURDIR)/..
 OPENBLASDEPENDLIBS  = -lgfortran
 
 # GCC 9.4
-GLIBCDIR		    := $(CENTRAL)/gcc/9.4.0
-GLIBCINCLUDES       := -I$(GLIBCDIR)/include/c++/9.4.0
-GLIBCLIBS		    := -L$(GLIBCDIR)/lib64 -lstdc++ -Wl,-rpath=$(GLIBCDIR)/lib64
-CC  			    := $(GLIBCDIR)/bin/g++
+# GLIBCDIR		    := $(CENTRAL)/gcc/9.4.0
+GLIBCINCLUDES       := -I/usr/include/c++/9
+GLIBCLIBS		    := -L/usr/lib/gcc/x86_64-linux-gnu/9 -lstdc++ -Wl,-rpath=/usr/lib/gcc/x86_64-linux-gnu/9
+CC  			    := g++
 
 ifeq ("$(OSRELEASE)", "ubuntu")
     # Perl
-    PERLDIR 			:= $(CENTRAL)/perl/5.34.0/lib/5.34.0
+    PERLDIR 			:= $(CENTRAL)/perl/5.34.3/lib/5.34.3
     # GCC 9.4
-    export LD_LIBRARY_PATH	:= $(GLIBCDIR)/lib64:$(LD_LIBRARY_PATH)
+#     export LD_LIBRARY_PATH	:= $(GLIBCDIR)/lib64:$(LD_LIBRARY_PATH)
     # qt
     QTINCLUDES 		    := -I$(QTDIR)/include -I$(QTDIR)/include/QtCore -I$(QTDIR)/include/QtGui -I$(QWTDIR)/include \
                             -I$(QTDIR)/include/QtNetwork -I$(QTDIR)/include/QtSql -I$(QTDIR)/include/QtWidgets \
@@ -74,7 +68,7 @@ SWIGDIR				:= $(CENTRAL)/swig/4.0.2
 SWIGINCLUDES		= -I$(SWIGDIR)/share/swig/4.0.2 -I$(SWIGDIR)/share/swig/4.0.2/perl5 -I$(SWIGDIR)/share/swig/4.0.2/tcl
 
 # Perl shell (PSH)
-PSHDIR				= $(CENTRAL7_9)/psh/1.9.01
+PSHDIR				= $(CENTRAL)/psh/psh-master
 # Perl
 PERLINCLUDES        = -I$(PERLDIR)/$(PLATFORM)-linux/CORE
 PERLLIBS 			= -fstack-protector -Wl,-E -lcrypt -lutil -lc \
@@ -103,9 +97,7 @@ LIBINCLUDES         += $(QTINCLUDES) $(BOOSTINCLUDES) $(SWIGINCLUDES) $(READLINE
                          $(ZSTDINC) $(ZLIBINC) $(JEMALLOCINC) $(OPENCVINC) $(ARMADILLOINCLUDES) \
                          $(EIGENINCLUDES) $(FFTWINCLUDES) $(GSLINCLUDES) $(OPENBLASINCLUDES) $(GLIBCINCLUDES) $(NLOPTINCLUDES)
 
-LIBS                += $(QTLIBS) $(PERLLIBS) $(X11LIBS) $(READLINELIBS) $(BOOSTLIBS) $(X11RELLIBS) \
-	                 	$(LICLIBS) $(ZSTDLIBS) $(ZLIBS) $(JEMALLOCLIBS) $(OPENCVLIBS) $(ARMADILLOLIBS) \
-                        $(FFTWLIBS) $(GSLLIBS) $(OPENBLASLIBS) $(OPENBLASDEPENDLIBS) $(GLIBCLIBS) $(NLOPTLIBS)
+LIBS                += $(PERLLIBS) $(READLINELIBS)  $(X11RELLIBS) $(GLIBCLIBS) 
 
 # packages
 # all the base package

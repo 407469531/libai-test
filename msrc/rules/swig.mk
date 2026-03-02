@@ -1,5 +1,5 @@
 SRCRULESPATH = $(shell cat ../../srcpath.file)
-include $(SRCRULESPATH)/src/rules/global.mk
+include $(SRCRULESPATH)/msrc/rules/global.mk
 PUBLISHINCLUDE	:= -I../../include
 
 # Makefile of build swig
@@ -17,14 +17,12 @@ OBJ_TARGET 	:= smBase_perl_wrap.o
 
 all: $(OBJ_TARGET)
 
-smBase.i:  $(addprefix ../, $(addsuffix .i, $(BASE_PKGS))) ../pm.tm ../dr.tm
+smBase.i:  $(addprefix ../, $(addsuffix .i, $(BASE_PKGS)))
 	echo "  -->build smBase.i"
 	echo "%module smBase" > $@
 	echo "%nodefaultctor;" >> $@
 	echo "%nodefaultdtor;" >> $@
 	echo "%feature(\"notabstract\");" >> $@
-	echo "%include \"pm.tm\"" >> $@;
-	echo "%include \"dr.tm\"" >> $@;
 	for pkg in $(BASE_PKGS); do \
 		echo "%include \"$$pkg.i\"" >> $@; \
 	done

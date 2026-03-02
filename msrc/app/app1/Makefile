@@ -1,28 +1,25 @@
-.SILENT:
+# .SILENT:
 
 include ../../rules/global.mk
 
-PROD 			:= dbscope
+PROD 			:= app1
 
 BUILDROOT		:= $(OUTPATH3)/build
 OBJDIR			:= $(BUILDROOT)/app/$(PROD)
-
 PUBLISHINCLUDE 	:= -I$(BUILDROOT)/include
 
 RELEASEROOT		:= $(OUTPATH3)/$(PRODROOT)
 LIBRARYROOT		:= $(RELEASEROOT)/etc/library
-PRODROOT		:= ../../rsc/launch
-
 RELEASEBIN		:= $(RELEASEROOT)/bin
 
 # 	needed directories
-
 LAUNCHPATH	:= base
 NEEDDIRS		:= $(shell $(MKDIR) -p $(BUILDROOT)/app/$(PROD) $(RELEASEBIN) \
 					$(RELEASEROOT)/etc/public $(RELEASEROOT)/etc/rc \
 					$(LIBRARYROOT)/lib64/plugins $(LIBRARYROOT)/sys_lib)
-
+PRODLAUNCHROOT		:= ../../rsc/launch/$(LAUNCHPATH)
 OSRELEASE           := $(shell lsb_release -is | tr 'A-Z' 'a-z')
+
 ifeq ("$(OSRELEASE)", "ubuntu")
 NEEDDIRS += $(shell $(MKDIR) -p $(LIBRARYROOT)/libu)
 endif
@@ -35,7 +32,7 @@ PKGS 			= $(BASE_PKGS)
 
 PKGLIBS			:= $(addsuffix .a, $(addprefix $(BUILDROOT)/lib/lib, $(PKGS)))
 
-SWIGS			:= smBase smDB
+SWIGS			:= smBase
 
 # which perl package needed
 SWIGLIBS		:=  $(addsuffix _perl_wrap.o, $(addprefix $(BUILDROOT)/swig/obj/, $(SWIGS)))
@@ -57,13 +54,13 @@ build_symbolic_obj:
 	fi
 
 build_symbolic_exe:
-	if [ ! -e $(RELEASEBIN)/dbscope_exe ]; then \
-		echo "  -->make symbolic link dbscope_exe"; \
-		$(LN) -s $(abspath $(OBJDIR)/dbscope_exe) $(RELEASEBIN)/dbscope_exe; \
+	if [ ! -e $(RELEASEBIN)/app1_exe ]; then \
+		echo "  -->make symbolic link app1_exe"; \
+		$(LN) -s $(abspath $(OBJDIR)/app1_exe) $(RELEASEBIN)/app1_exe; \
 	fi
 
-$(RELEASEBIN)/dbscope: $(PRODROOT)/$(LAUNCHPATH)/dbscope
-	echo "  -->copy $(LAUNCHPATH) DBScope"
+$(RELEASEBIN)/$(PROD): $(PRODLAUNCHROOT)/$(PROD)
+	echo "  -->copy $(LAUNCHPATH) app1"
 	$(CP) -f $< $@
 
 $(OBJDIR)/%.o: %.cc
@@ -81,14 +78,14 @@ libu:
 	fi;
 
 install:
-	$(LDD) $(OBJDIR)/dbscope_exe | awk '/\/.*\// {print($$3)}' |grep "$(BUILD_HOME)" | $(XARGS) -I '{}' $(CP) -f '{}' $(LIBRARYROOT)/lib64
-	$(LDD) $(OBJDIR)/dbscope_exe | awk '/\/.*\// {print($$3)}' |grep -v "$(BUILD_HOME)" | $(XARGS) -I '{}' $(CP) -f '{}' $(LIBRARYROOT)/sys_lib
+	$(LDD) $(OBJDIR)/app1_exe | awk '/\/.*\// {print($$3)}' |grep "$(BUILD_HOME)" | $(XARGS) -I '{}' $(CP) -f '{}' $(LIBRARYROOT)/lib64
+	$(LDD) $(OBJDIR)/app1_exe | awk '/\/.*\// {print($$3)}' |grep -v "$(BUILD_HOME)" | $(XARGS) -I '{}' $(CP) -f '{}' $(LIBRARYROOT)/sys_lib
 	$(MAKE) libu
 	chmod -R 755 $(LIBRARYROOT)/lib64
 	chmod -R 755 $(RELEASEBIN)
 
-$(OBJDIR)/dbscope_exe: $(OBJS) $(SWIGLIBS) $(PKGLIBS)
-	echo "  -->make dbscope_exe"
+$(OBJDIR)/app1_exe: $(OBJS) $(SWIGLIBS) $(PKGLIBS)
+	echo "  -->make app1_exe"
 	$(CC) -o $@ $(CCFLAGS) -fPIC -rdynamic -fopenmp -Wl,--start-group $^ $(LIBS) -Wl,--end-group
 	$(RM) -f $(OBJDIR)/main.o
 
@@ -97,26 +94,26 @@ clean:
 	$(RM) -f $(OBJDIR)/*
 
 allscript:
-	$(MAKE) $(RELEASEBIN)/dbscope
+	$(MAKE) $(RELEASEBIN)/$(PROD)
 
 optimize: build_symbolic_obj 3rdParty PerlPm SwigPm Rsc
-	echo ">>>Make optimize DBScope..."
-	$(MAKE) OPTFLAG="-O3 -DNDEBUG" $(OBJDIR)/dbscope_exe
-	strip $(OBJDIR)/dbscope_exe
+	echo ">>>Make optimize app1..."
+	$(MAKE) OPTFLAG="-O3 -DNDEBUG" $(OBJDIR)/app1_exe
+	strip $(OBJDIR)/app1_exe
 	$(MAKE) build_symbolic_exe
 	$(MAKE) allscript
 	$(MAKE) install
 
 profiler: build_symbolic_obj 3rdParty PerlPm SwigPm Rsc
-	echo ">>>Make optimize DBScope..."
-	$(MAKE) OPTFLAG="-fno-omit-frame-pointer -ggdb -O3 -g -D _DEBUG" $(OBJDIR)/dbscope_exe
+	echo ">>>Make optimize app1..."
+	$(MAKE) OPTFLAG="-fno-omit-frame-pointer -ggdb -O3 -g -D _DEBUG" $(OBJDIR)/app1_exe
 	$(MAKE) build_symbolic_exe
 	$(MAKE) allscript
 	$(MAKE) install
 
 debug: build_symbolic_obj 3rdParty PerlPm SwigPm Rsc
-	echo ">>>Make debug DBScope..."
-	$(MAKE) OPTFLAG=-g $(OBJDIR)/dbscope_exe
+	echo ">>>Make debug app1..."
+	$(MAKE) OPTFLAG=-g $(OBJDIR)/app1_exe
 	$(MAKE) build_symbolic_exe
 	$(MAKE) allscript
 	$(MAKE) install
@@ -129,7 +126,7 @@ debug: build_symbolic_obj 3rdParty PerlPm SwigPm Rsc
 	fi;
 	if [ ! -h $(RELEASEROOT)/etc/public/psh-1.9.01 ]; then \
 		echo "  -->make symbolic link $(RELEASEROOT)/etc/public/psh-1.9.01"; \
-		$(LN) -s $(PSHDIR)/blib/lib $(RELEASEROOT)/etc/public/psh-1.9.01; \
+		$(LN) -s $(PSHDIR)/lib $(RELEASEROOT)/etc/public/psh-1.9.01; \
 	fi;
 	if [ ! -h $(LIBRARYROOT)/lib64/plugins/platforms ]; then \
 		echo "  -->make symbolic link $(LIBRARYROOT)/lib64/plugins/platforms"; \
@@ -168,7 +165,6 @@ SwigPm:
 		fi; \
 	done
 	
-
 # resource for app
 Rsc:
 	if [ ! -h $(RELEASEROOT)/etc/rc/icons ]; then \
@@ -190,13 +186,5 @@ Rsc:
 	if [ ! -h $(RELEASEROOT)/etc/rc/drcRule ]; then \
 		echo "  -->make symbolic link $(RELEASEROOT)/etc/rc/drcRule"; \
 		$(LN) -s $(abspath ../../rsc/script/drcRule) $(RELEASEROOT)/etc/rc/drcRule; \
-	fi;
-	if [ ! -h $(RELEASEROOT)/etc/rc/setting ]; then \
-		echo "  -->copy setting"; \
-		$(CP) -rf $(abspath ../../rsc/setting) $(RELEASEROOT)/etc/rc/setting; \
-	fi;
-	if [ ! -h $(RELEASEROOT)/tools ]; then \
-		echo "  -->copy tools"; \
-		$(CP) -rf $(abspath ../../rsc/tools) $(RELEASEROOT); \
 	fi;
 
