@@ -11,21 +11,8 @@
 　| (￣ヽ＿_ヽ_)__)
 　＼二つ
 */
+#include "typedef.h"
 
-#include <unistd.h>
-#include <iostream>
-#include <fstream>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <deque>
-#include <vector>
-#include <algorithm>
-#include <list>
-#include <forward_list>
-#include <stack>
-#include <queue>
 
 size_t getMemInUse();
 std::string memStr(size_t bytes);

@@ -14,11 +14,11 @@ typedef struct Slot
 class ObjectPool;
 
 typedef struct MemPage{
-    const char      *_pLog;
-    ObjectPool    *_objPool;
-    MemPage       *_next;
-    T_SLOT          *_unusedSlotInPage;
-    size_t          _objCount;
+    CStr        _pLog;
+    ObjectPool* _objPool;
+    MemPage*    _next;
+    T_SLOT*     _unusedSlotInPage;
+    size_t      _objCount;
 
     MemPage();
     void init(ObjectPool *objPool = nullptr);

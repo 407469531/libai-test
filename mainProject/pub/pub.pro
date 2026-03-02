@@ -7,7 +7,8 @@ HEADERS += \
     memManage.h \
     memPool.h \
     objectPool.h \
-    pub.h
+    pub.h \
+    typedef.h
 
 SOURCES += \
     memManage.cpp \

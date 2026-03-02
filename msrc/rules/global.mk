@@ -95,13 +95,10 @@ AR   				:= ar
 MOC       	        := $(QTDIR)/bin/moc $(OSFLAG)
 SWIG				:= $(SWIGDIR)/bin/swig
 PRESWIG				:= $(CENTRAL)/preSwig
-DOXYGEN             := doxygen
 LDD                 := ldd
 XARGS               := xargs
 
-#
 # include and library
-#
 LIBINCLUDES         += $(QTINCLUDES) $(BOOSTINCLUDES) $(SWIGINCLUDES) $(READLINEINC) $(LICINCLUDES) \
                          $(ZSTDINC) $(ZLIBINC) $(JEMALLOCINC) $(OPENCVINC) $(ARMADILLOINCLUDES) \
                          $(EIGENINCLUDES) $(FFTWINCLUDES) $(GSLINCLUDES) $(OPENBLASINCLUDES) $(GLIBCINCLUDES) $(NLOPTINCLUDES)
@@ -114,15 +111,3 @@ LIBS                += $(QTLIBS) $(PERLLIBS) $(X11LIBS) $(READLINELIBS) $(BOOSTL
 # all the base package
 BASE_PKGS		+= gp
 
-# will convert to scripting db, BASE_PKGS and DB_PKGS are require for every product
-DB_PKGS			= db bp ds df dm du rb fb ut mm
-
-# minimum pkgs lib link
-CLIENT_PKGS     = $(DB_PKGS) pe gp pd pl io nb bp dr xo
-# pkg need include perl
-PERL_PKG        = dr pm gm pl
-
-#minimal PKGS
-MINIMAL_PKGS    = pe dm mm ut io sq du pd gu gm dr ed pm db gp oa jdv lm ds pl rb fb md jfz ca jeol vsb mbs gds oas
-
-MASK_PKGS       = $(DB_PKGS) $(BASE_PKGS) mgu mask base
